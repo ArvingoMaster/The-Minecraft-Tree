@@ -95,7 +95,7 @@ addLayer("W", {
   position: 0,
   row: 1,
   startData() { return {
-      unlocked: false,
+      unlocked: true,
       points: new Decimal(0),
       Dirt: new Decimal(0),
   }},
