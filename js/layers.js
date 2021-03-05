@@ -70,7 +70,7 @@ addLayer("d", {
       unlocked() { return (hasUpgrade(this.layer, 22))},
     },
 },
-})
+},
 addLayer("W", {
   name: "Wood",
   symbol: "W",
