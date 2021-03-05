@@ -64,14 +64,14 @@ addLayer("d", {
       effectDisplay() { return format(this.effect())+"x" },
     },
     23: {
-      title: "Dirty Shovel",
+      title: "Dirty Shovela",
       description: "Double Dirt Gain!",
       cost: new Decimal(25),
       unlocked() { return (hasUpgrade(this.layer, 22))},
       }
     }
 }
-})
+}
 addLayer("W", {
   name: "Wood",
   symbol: "W",
