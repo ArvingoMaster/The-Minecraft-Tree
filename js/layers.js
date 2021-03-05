@@ -68,10 +68,9 @@ addLayer("d", {
       description: "Double Dirt Gain!",
       cost: new Decimal(25),
       unlocked() { return (hasUpgrade(this.layer, 22))},
-      
-    }
-}
-}
+    },
+},
+},
 addLayer("W", {
   name: "Wood",
   symbol: "W",
