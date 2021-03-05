@@ -57,7 +57,7 @@ addLayer("d", {
       effect() {
         let get = new Decimal(player.timePlayed)
         let ret = get.times(0.002).add(2)
-        if (ret.gte("100000")) ret = ret.sqrt().times("1")
+        if (ret.gte("3")) ret = ret.sqrt().times("1")
         return ret;
 
       },
