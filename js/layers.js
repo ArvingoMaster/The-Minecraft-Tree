@@ -26,7 +26,7 @@ addLayer("d", {
     ],
     layerShown(){return true},
     upgrades: {
-    rows: 2,
+    rows: 3,
     cols: 5,
     11: {
         description: "UPGRADE YOUR HANDS! x2 Energy",
@@ -65,24 +65,42 @@ addLayer("d", {
     },
     23: {
       title: "Dirty Shovela",
-      description: "Double Dirt Gain!",
+      description: "Double Energy Gain, again!",
       cost: new Decimal(25),
       unlocked() { return (hasUpgrade(this.layer, 22))},
     },
+    24: {
+      title: "Dorty Challenge",
+      description: "Unlock a challenge",
+      cost: new Decimal(100),
+      unlocked() {return (hasUpgrade(this.layer, 23))}
+    }
 },
-})
+challenges: {
+    rows: 1,
+    cols: 1,
+    11: {
+        name: "Ouch ",
+        challengeDescription: "description of ouchie, you are dirty and square rooted lol.",
+        goal: new Decimal(500),
+        rewardDescription: "2x energy",
+        unlocked() {return (hasUpgrade(this.layer, 24))},
+    }
+}
+}
+)
 addLayer("W", {
   name: "Wood",
   symbol: "W",
   position: 0,
   row: 1,
   startData() { return {
-      unlocked: true,
+      unlocked: false,
       points: new Decimal(0),
       Dirt: new Decimal(0),
   }},
   color: "#964B00",
-  requires: new Decimal (100),
+  requires: new Decimal (10000),
   resource: "Wood",
   baseResource: "energy",
   baseAmount() { return player.points },  // A function to return the current amount of baseResource.
