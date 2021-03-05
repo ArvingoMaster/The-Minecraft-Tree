@@ -15,6 +15,7 @@ addLayer("d", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasChallenge("d", 11)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -43,7 +44,8 @@ addLayer("d", {
         unlocked() { return (hasUpgrade(this.layer, 11))},
         effect() { // Calculate bonuses from the upgrade. Can return a single value or an object with multiple values
             let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
-            if (ret.gte("1000")) ret = ret.sqrt().times("5")
+            if (ret.gte("100")) ret = ret.sqrt().times("2")
+            if (ret.gte("1000")) ret = tet.sqrt().times("1")
             return ret;
         },
         effectDisplay() { return format(this.effect())+"x" }, // Add formatting to the effect
@@ -83,7 +85,7 @@ challenges: {
         name: "Ouch ",
         challengeDescription: "description of ouchie, you are dirty and square rooted lol.",
         goal: new Decimal(500),
-        rewardDescription: "2x energy",
+        rewardDescription: "2x dirt",
         unlocked() {return (hasUpgrade(this.layer, 24))},
     }
 }
@@ -100,7 +102,7 @@ addLayer("W", {
       Dirt: new Decimal(0),
   }},
   color: "#964B00",
-  requires: new Decimal (10000),
+  requires: new Decimal (100000),
   resource: "Wood",
   baseResource: "energy",
   baseAmount() { return player.points },  // A function to return the current amount of baseResource.
