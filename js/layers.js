@@ -116,6 +116,7 @@ addLayer("W", {
   requires: new Decimal (10000),
   resource: "Wood",
   baseResource: "energy",
+  branches: ["d"],
   baseAmount() { return player.points },
     // A function to return the current amount of baseResource.
 
