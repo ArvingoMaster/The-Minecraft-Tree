@@ -24,6 +24,11 @@ addLayer("d", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+    passiveGeneration() {
+      passive = new Decimal(0)
+      if (hasUpgrade("W", 23))  passive = new Decimal(0.1)
+      return passive
+    },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "d", description: "D: Reset for D.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -131,6 +136,7 @@ addLayer("W", {
     mult = new Decimal(1)
     if (hasUpgrade("W", 21)) mult = mult.times(1.2)
     if (hasUpgrade("W", 22)) mult = mult.times(1.2)
+    if (hasUpgrade("W", 23)) mult = mult.times(1.1)
     return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
@@ -185,6 +191,12 @@ addLayer("W", {
         description: "You can chop harder, increasing both dirt and wood gain by 1.2x",
         cost: new Decimal(10),
         unlocked() {return hasUpgrade("W", 21)}
+      },
+      23: {
+        title: "Karate 10%",
+        description: "You can multitask, increasing your dirt by 1% of your dirt gain per second and wood gain by 1.1x",
+        cost: new Decimal(15),
+        unlocked() {return hasUpgrade("W", 22)}
       }
     },
 
