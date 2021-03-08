@@ -193,7 +193,7 @@ addLayer("W", {
         unlocked() {return hasUpgrade("W", 21)}
       },
       23: {
-        title: "Karate 10%",
+        title: "Karate 60%",
         description: "You can multitask, increasing your dirt by 1% of your dirt gain per second and wood gain by 1.1x",
         cost: new Decimal(15),
         unlocked() {return hasUpgrade("W", 22)}
