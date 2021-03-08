@@ -7,7 +7,7 @@ addLayer("d", {
         points: new Decimal(0)
     }},
     color: "#964B00",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1), // Can be a function that takes requirement increases into account
     resource: "Dirt", // Name of prestige currency
     baseResource: "energy", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -16,6 +16,7 @@ addLayer("d", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasChallenge("d", 11)) mult = mult.times(2)
+        if (hasUpgrade("W", 11)) mult = mult.times(upgradeEffect("W", 11))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -25,6 +26,13 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for D.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+
+
+
+
+
+
+
     layerShown(){return true},
     upgrades: {
     rows: 3,
@@ -78,6 +86,7 @@ addLayer("d", {
       unlocked() {return (hasUpgrade(this.layer, 23))}
     }
 },
+
 challenges: {
     rows: 1,
     cols: 1,
@@ -89,6 +98,7 @@ challenges: {
         unlocked() {return (hasUpgrade(this.layer, 24))},
     }
 }
+
 }
 )
 addLayer("W", {
@@ -102,12 +112,14 @@ addLayer("W", {
       Dirt: new Decimal(0),
   }},
   color: "#964B00",
-  requires: new Decimal (100000),
+  requires: new Decimal (1),
   resource: "Wood",
   baseResource: "energy",
-  baseAmount() { return player.points },  // A function to return the current amount of baseResource.
-           // The amount of the base needed to  gain 1 of the prestige currency.
-                                            // Also the amount required to unlock the layer.
+  baseAmount() { return player.points },
+    // A function to return the current amount of baseResource.
+
+
+
 
   type: "normal",                         // Determines the formula used for calculating prestige currency.
   exponent: 0.5,                          // "normal" prestige gain is (currency^exponent).
@@ -119,5 +131,44 @@ addLayer("W", {
     return new Decimal(1)
     },
 
-    layerShown() { return true }            // Returns a bool for if this layer's node should be visible in the tree.
+    layerShown() { return true }   ,
+    milestones: {
+        0: {
+            requirementDescription: "5 Wood",
+            effectDescription: "Keep your sanity, 1.5x Dirt.",
+            done() { return player[this.layer].points.gte(5) }
+        },
+        1: {
+          requirementDescription: "50 Wood",
+          effectDescription: "Unlock buyable.",
+          done() { return player[this.layer].points.gte(50) }
+        },
+        2: {
+          requirementDescription: "1000 Wood",
+          effectDescription: "Unlock more dirt challenges.",
+          done() { return player[this.layer].points.gte(1000) }
+        }         // Returns a bool for if this layer's node should be visible in the tree.
+},
+    upgrades: {
+      rows: 2,
+      cols: 3,
+      11: {
+        title: "Motivating 2.0",
+        description: "Wood boosts your dirt gain by small amount.",
+        cost: new Decimal(3),
+        unlocked() {return (player[this.layer].points.gte("1")) || hasUpgrade(this.layer, 11)},
+        effect() {
+          let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
+          if (ret.gte("1")) ret = ret.sqrt()
+          if (ret.gte("10")) ret = ret.sqrt().times("2")
+          if (ret.gte("25")) ret = ret.sqrt().times("5")
+          return ret;
+        },
+
+        effectDisplay() { return format(this.effect())+"x" },
+
+      },
+    },
+
+
 })

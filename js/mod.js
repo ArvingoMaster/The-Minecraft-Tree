@@ -50,7 +50,6 @@ function getPointGen() {
 	return gain
 
 }
-
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
 }}
