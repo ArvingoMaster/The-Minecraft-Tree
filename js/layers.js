@@ -17,6 +17,7 @@ addLayer("d", {
         mult = new Decimal(1)
         if (hasChallenge("d", 11)) mult = mult.times(2)
         if (hasUpgrade("W", 11)) mult = mult.times(upgradeEffect("W", 11))
+        if (hasMilestone("W", 0)) mult = mult.times(1.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
