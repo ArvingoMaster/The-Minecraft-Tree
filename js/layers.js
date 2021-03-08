@@ -153,7 +153,7 @@ addLayer("W", {
 },
     upgrades: {
       rows: 2,
-      cols: 3,
+      cols: 5,
       11: {
         title: "Motivating 2.0",
         description: "Wood boosts your dirt gain by small amount.",
@@ -170,6 +170,12 @@ addLayer("W", {
         effectDisplay() { return format(this.effect())+"x" },
 
       },
+      21: {
+        title: "Karate 33%",
+        description: "Start learning karate to up your wood gain, will also give other boosts. This one give 1.2x Wood.",
+        cost: new Decimal(5),
+        unlocked() {return hasUpgrade("W", 12)}
+      }
     },
 
 
