@@ -184,7 +184,7 @@ addLayer("W", {
         title: "Karate 20%",
         description: "Start learning karate to up your wood gain, will also give other boosts. This one give 1.2x Wood.",
         cost: new Decimal(5),
-        unlocked() {return hasUpgrade("W", 12)}
+        unlocked() {return hasUpgrade("W", 11)}
       },
       22: {
         title: "Karate 40%",
