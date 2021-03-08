@@ -7,7 +7,7 @@ addLayer("d", {
         points: new Decimal(0)
     }},
     color: "#964B00",
-    requires: new Decimal(1), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "Dirt", // Name of prestige currency
     baseResource: "energy", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -82,7 +82,7 @@ addLayer("d", {
     24: {
       title: "Dorty Challenge",
       description: "Unlock a challenge",
-      cost: new Decimal(100),
+      cost: new Decimal(50),
       unlocked() {return (hasUpgrade(this.layer, 23))}
     }
 },
@@ -112,7 +112,7 @@ addLayer("W", {
       Dirt: new Decimal(0),
   }},
   color: "#964B00",
-  requires: new Decimal (1),
+  requires: new Decimal (10000),
   resource: "Wood",
   baseResource: "energy",
   baseAmount() { return player.points },
