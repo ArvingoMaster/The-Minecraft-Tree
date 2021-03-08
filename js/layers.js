@@ -18,6 +18,7 @@ addLayer("d", {
         if (hasChallenge("d", 11)) mult = mult.times(2)
         if (hasUpgrade("W", 11)) mult = mult.times(upgradeEffect("W", 11))
         if (hasMilestone("W", 0)) mult = mult.times(1.5)
+        if (hasUpgrade("W", 22)) mult = mult.times(1.2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -127,7 +128,10 @@ addLayer("W", {
   exponent: 0.5,                          // "normal" prestige gain is (currency^exponent).
 
   gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
-    return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    mult = new Decimal(1)
+    if (hasUpgrade("W", 21)) mult = mult.times(1.2)
+    if (hasUpgrade("W", 22)) mult = mult.times(1.2)
+    return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
     return new Decimal(1)
@@ -171,10 +175,16 @@ addLayer("W", {
 
       },
       21: {
-        title: "Karate 33%",
+        title: "Karate 20%",
         description: "Start learning karate to up your wood gain, will also give other boosts. This one give 1.2x Wood.",
         cost: new Decimal(5),
         unlocked() {return hasUpgrade("W", 12)}
+      },
+      22: {
+        title: "Karate 40%",
+        description: "You can chop harder, increasing both dirt and wood gain by 1.2x",
+        cost: new Decimal(10),
+        unlocked() {return hasUpgrade("W", 21)}
       }
     },
 
