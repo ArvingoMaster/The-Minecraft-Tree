@@ -61,7 +61,7 @@ addLayer("d", {
         effect() { // Calculate bonuses from the upgrade. Can return a single value or an object with multiple values
             let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
             if (ret.gte("100")) ret = ret.sqrt().times("2")
-            if (ret.gte("1000")) ret = tet.sqrt().times("1")
+            if (ret.gte("1000")) ret = ret.sqrt().times("1")
             return ret;
         },
         effectDisplay() { return format(this.effect())+"x" }, // Add formatting to the effect
@@ -188,7 +188,7 @@ addLayer("W", {
         title: "Jump Boost!",
         description: "You train your feet in order to reach higher, whihc allows for 1.5x wood! Looks like you are extremely tired though...",
         cost: new Decimal(10),
-        unlocked() {return has Upgrade("W", 22)}
+        unlocked() {return hasUpgrade("W", 22)}
       },
       21: {
         title: "Karate 20%",
@@ -225,17 +225,22 @@ addLayer("W", {
         rows: 1,
         cols: 1,
         11: {
-          title: "Apples"
-            cost(x) { return new Decimal(x.times(4).sqrt()) },
-            display() { return "Finally, something you can eat! Boosts your energy gain." },
+          title: "Apples",
+            unlocked() {return hasMilestone(this.layer, 1)},
+            cost(x) { return new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)},
+            display() { return "Finally, something you can eat! Boosts your energy gain by 4x rooted your current amount." },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, getBuyableAmt(this.layer, this.id).add(1))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect() {
+              let ret = new Decimal(getBuyableAmount(this.layer, this.id).times(4).sqrt())
+              return ret;
             },
 
         },
-        
+
     }
 
 
