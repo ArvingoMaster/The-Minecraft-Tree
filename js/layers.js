@@ -221,6 +221,22 @@ addLayer("W", {
         unlocked() {return hasUpgrade("W", 24)}
       },
     },
+    buyables: {
+        rows: 1,
+        cols: 1,
+        11: {
+          title: "Apples"
+            cost(x) { return new Decimal(x.times(4).sqrt()) },
+            display() { return "Finally, something you can eat! Boosts your energy gain." },
+            canAfford() { return player[this.layer].points.gte(this.cost()) },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmt(this.layer, this.id).add(1))
+            },
+
+        },
+        
+    }
 
 
 })
