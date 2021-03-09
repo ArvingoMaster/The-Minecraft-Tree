@@ -62,7 +62,10 @@ addLayer("d", {
         effect() { // Calculate bonuses from the upgrade. Can return a single value or an object with multiple values
             let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
             if (ret.gte("100")) ret = ret.sqrt().times("10")
-            if (ret.gte("1000")) ret = ret.sqrt().times("1")
+            if (ret.gte("1000")) ret = ret.sqrt().times("33")
+            if (ret.gte("10000")) ret = ret.sqrt().times("100")
+            if (ret.gte("100000")) ret = ret.sqrt().times("330")
+            
             return ret;
         },
         effectDisplay() { return format(this.effect())+"x" }, // Add formatting to the effect
