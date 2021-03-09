@@ -61,7 +61,7 @@ addLayer("d", {
         unlocked() { return (hasUpgrade(this.layer, 11))},
         effect() { // Calculate bonuses from the upgrade. Can return a single value or an object with multiple values
             let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
-            if (ret.gte("100")) ret = ret.sqrt().times("2")
+            if (ret.gte("100")) ret = ret.sqrt().times("10")
             if (ret.gte("1000")) ret = ret.sqrt().times("1")
             return ret;
         },
@@ -112,6 +112,14 @@ challenges: {
       goal: new Decimal(500),
       rewardDescription: "Upgrade passive generation to 25%",
       unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
+    },
+    13: {
+      name: "Sleeping Dirty",
+      challengeDescription: "You are asleep, having /10,000,000 Energy Gain also square rooted, have fun!",
+      goal: new Decimal(1),
+      rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
+      unlocked() {return (hasChallenge("d", 12))}
+
     }
 }
 
@@ -155,7 +163,7 @@ addLayer("W", {
     return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("d", 11) }   ,
+    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) }   ,
     milestones: {
         0: {
             requirementDescription: "5 Wood",
