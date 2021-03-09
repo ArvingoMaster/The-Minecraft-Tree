@@ -236,7 +236,11 @@ addLayer("W", {
           title: "Apples",
             unlocked() {return hasMilestone(this.layer, 1)},
             cost(x) { return new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)},
-            display() { return "Finally, something you can eat! Boosts your energy gain by 4x rooted your current amount." },
+            display() {
+              let data = tmp[this.layer].buyables[this.id]
+               let display = ("Cost: " + formatWhole(data.cost) + " Wood. Apples boosts energy gain.") + "\n\ Amount: " + formatWhole(player[this.layer].buyables[this.id]) + "\n\ Currently " + formatWhole(buyableEffect(this.layer, this.id)) + "x"
+               return display
+            },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
