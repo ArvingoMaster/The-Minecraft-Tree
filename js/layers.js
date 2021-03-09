@@ -19,6 +19,7 @@ addLayer("d", {
         if (hasUpgrade("W", 11)) mult = mult.times(upgradeEffect("W", 11))
         if (hasMilestone("W", 0)) mult = mult.times(1.5)
         if (hasUpgrade("W", 22)) mult = mult.times(1.2)
+        if (hasUpgrade("W", 25)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -137,6 +138,9 @@ addLayer("W", {
     if (hasUpgrade("W", 21)) mult = mult.times(1.2)
     if (hasUpgrade("W", 22)) mult = mult.times(1.2)
     if (hasUpgrade("W", 23)) mult = mult.times(1.1)
+    if (hasUpgrade("W", 24)) mult = mult.times(2)
+    if (hasUpgrade("W", 25)) mult = mult.times(2)
+    if (hasUpgrade("W", 12)) mult = mult.times(1.5)
     return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
@@ -165,13 +169,13 @@ addLayer("W", {
       rows: 2,
       cols: 5,
       11: {
-        title: "Motivating 2.0",
+        title: "Motivating Motivation",
         description: "Wood boosts your dirt gain by small amount.",
-        cost: new Decimal(3),
+        cost: new Decimal(1),
         unlocked() {return (player[this.layer].points.gte("1")) || hasUpgrade(this.layer, 11)},
         effect() {
           let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
-          if (ret.gte("1")) ret = ret.sqrt()
+          if (ret.gte("2")) ret = ret.sqrt()
           if (ret.gte("10")) ret = ret.sqrt().times("2")
           if (ret.gte("25")) ret = ret.sqrt().times("5")
           return ret;
@@ -179,6 +183,12 @@ addLayer("W", {
 
         effectDisplay() { return format(this.effect())+"x" },
 
+      },
+      12: {
+        title: "Jump Boost!",
+        description: "You train your feet in order to reach higher, whihc allows for 1.5x wood! Looks like you are extremely tired though...",
+        cost: new Decimal(10),
+        unlocked() {return has Upgrade("W", 22)}
       },
       21: {
         title: "Karate 20%",
@@ -189,15 +199,27 @@ addLayer("W", {
       22: {
         title: "Karate 40%",
         description: "You can chop harder, increasing both dirt and wood gain by 1.2x",
-        cost: new Decimal(10),
+        cost: new Decimal(7),
         unlocked() {return hasUpgrade("W", 21)}
       },
       23: {
         title: "Karate 60%",
-        description: "You can multitask, increasing your dirt by 1% of your dirt gain per second and wood gain by 1.1x",
-        cost: new Decimal(15),
+        description: "You can multitask, increasing your dirt by 10% of your dirt gain per second and wood gain by 1.1x",
+        cost: new Decimal(10),
         unlocked() {return hasUpgrade("W", 22)}
-      }
+      },
+      24: {
+        title: "Karate 80%",
+        description: "You focus more strongly on wood chopping, wtih 2x more wood!",
+        cost: new Decimal(15),
+        unlocked() {return hasUpgrade("W", 23)}
+      },
+      25: {
+        title: "Karate 100%",
+        description: "You seem to mastered this art, 2x wood gain, 2x dirt gain, and 2x energy gain!",
+        cost: new Decimal(25),
+        unlocked() {return hasUpgrade("W", 24)}
+      },
     },
 
 
