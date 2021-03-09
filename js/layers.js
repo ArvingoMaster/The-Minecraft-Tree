@@ -97,13 +97,20 @@ addLayer("d", {
 
 challenges: {
     rows: 1,
-    cols: 1,
+    cols: 2,
     11: {
         name: "Ouch ",
         challengeDescription: "description of ouchie, you are dirty and square rooted lol.",
         goal: new Decimal(500),
         rewardDescription: "2x dirt",
         unlocked() {return (hasUpgrade(this.layer, 24))},
+    },
+    12: {
+      name: "HUNGERY ep 1.",
+      challengeDescription: "You are HUNGARY, only apple buyables work.",
+      goal: new Decimal(2500),
+      rewardDescription: "Upgrade passive generation to 25%",
+      unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
     }
 }
 

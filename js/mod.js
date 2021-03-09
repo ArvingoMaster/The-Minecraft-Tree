@@ -42,12 +42,15 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-	if (hasUpgrade("d", 12)) gain = gain.times(upgradeEffect("d", 12))
-	if (hasUpgrade("d", 11)) gain = gain.times(2)
-	if (hasUpgrade("d", 22)) gain = gain.times(upgradeEffect("d", 22))
-	if (hasUpgrade("d", 23)) gain = gain.times(upgradeEffect("d", 22))
-	if (inChallenge("d", 11)) gain = gain.sqrt()
-	if (hasUpgrade("W", 25)) gain = gain.times(2)
+	if (!inChallenge("d", 12)) {
+		if (hasUpgrade("d", 12)) gain = gain.times(upgradeEffect("d", 12))
+		if (hasUpgrade("d", 11)) gain = gain.times(2)
+		if (hasUpgrade("d", 22)) gain = gain.times(upgradeEffect("d", 22))
+		if (hasUpgrade("d", 23)) gain = gain.times(upgradeEffect("d", 22))
+		if (inChallenge("d", 11)) gain = gain.sqrt()
+		if (hasUpgrade("W", 25)) gain = gain.times(2)
+
+	}
 	if (hasMilestone("W", 1)) gain = gain.times(buyableEffect("W", 11))
 	return gain
 
