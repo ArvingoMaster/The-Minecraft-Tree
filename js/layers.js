@@ -65,7 +65,7 @@ addLayer("d", {
             if (ret.gte("1000")) ret = ret.sqrt().times("33")
             if (ret.gte("10000")) ret = ret.sqrt().times("100")
             if (ret.gte("100000")) ret = ret.sqrt().times("330")
-            
+
             return ret;
         },
         effectDisplay() { return format(this.effect())+"x" }, // Add formatting to the effect
@@ -118,7 +118,7 @@ challenges: {
     },
     13: {
       name: "Sleeping Dirty",
-      challengeDescription: "You are asleep, having /10,000,000 Energy Gain also square rooted, have fun!",
+      challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
       goal: new Decimal(1),
       rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
       unlocked() {return (hasChallenge("d", 12))}
