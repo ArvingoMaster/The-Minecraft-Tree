@@ -28,6 +28,7 @@ addLayer("d", {
     passiveGeneration() {
       passive = new Decimal(0)
       if (hasUpgrade("W", 23))  passive = new Decimal(0.1)
+      if (hasChallenge("d", 12)) passive = new Decimal(0.25)
       return passive
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -108,7 +109,7 @@ challenges: {
     12: {
       name: "HUNGERY ep 1.",
       challengeDescription: "You are HUNGARY, only apple buyables work.",
-      goal: new Decimal(2500),
+      goal: new Decimal(500),
       rewardDescription: "Upgrade passive generation to 25%",
       unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
     }
