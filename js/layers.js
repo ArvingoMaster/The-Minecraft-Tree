@@ -155,7 +155,7 @@ addLayer("W", {
     return new Decimal(1)
     },
 
-    layerShown() { return true }   ,
+    layerShown() { return hasChallenge("d", 11) }   ,
     milestones: {
         0: {
             requirementDescription: "5 Wood",
