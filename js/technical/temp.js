@@ -24,7 +24,7 @@ function setupTemp() {
 	tmp.displayThings = []
 	tmp.scrolled = 0
 	funcs = {}
-	
+
 	setupTempData(layers, tmp, funcs)
 	for (layer in layers){
 		tmp[layer].resetGain = {}
@@ -67,7 +67,7 @@ function setupTempData(layerData, tmpData, funcsData) {
 		} else {
 			tmpData[item] = layerData[item]
 		}
-	}	
+	}
 }
 
 function updateTemp() {
@@ -96,13 +96,13 @@ function updateTemp() {
 	for (thing in displayThings){
 		let text = displayThings[thing]
 		if (isFunction(text)) text = text()
-		tmp.displayThings.push(text) 
+		tmp.displayThings.push(text)
 	}
 
 }
 
 function updateTempData(layerData, tmpData, funcsData) {
-	
+
 	for (item in funcsData){
 		if (Array.isArray(layerData[item])) {
 			updateTempData(layerData[item], tmpData[item], funcsData[item])
@@ -127,7 +127,7 @@ function updateTempData(layerData, tmpData, funcsData) {
 
 			Vue.set(tmpData, item, value)
 		}
-	}	
+	}
 }
 
 function updateChallengeTemp(layer)
@@ -176,9 +176,9 @@ function constructAchievementStyles(layer){
 		ach = tmp[layer].achievements[id]
 		if (isPlainObject(ach)) {
 			let style = []
-			if (ach.image){ 
+			if (ach.image){
 				style.push({'background-image': 'url("' + ach.image + '")'})
-			} 
+			}
 			if (!ach.unlocked) style.push({'visibility': 'hidden'})
 			style.push(ach.style)
 			Vue.set(ach, 'computedStyle', style)

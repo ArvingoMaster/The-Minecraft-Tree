@@ -53,7 +53,7 @@ function getPointGen() {
 	}
 	if (hasMilestone("W", 1)) gain = gain.times(buyableEffect("W", 11))
 	if (hasChallenge("d", 13)) gain = gain.add(1)
-	return gain
+	return gain;
 
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
