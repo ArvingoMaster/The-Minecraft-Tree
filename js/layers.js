@@ -100,7 +100,7 @@ addLayer("d", {
 },
 
 challenges: {
-    rows: 1,
+    rows: 2,
     cols: 2,
     11: {
         name: "Ouch ",
@@ -116,7 +116,7 @@ challenges: {
       rewardDescription: "Upgrade passive generation to 25%",
       unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
     },
-    13: {
+    21: {
       name: "Sleeping Dirty",
       challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
       goal: new Decimal(1),
