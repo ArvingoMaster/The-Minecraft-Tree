@@ -130,6 +130,14 @@ challenges: {
       goal: new Decimal(1),
       rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
       unlocked() {return (hasChallenge("d", 12))}
+    },
+    22: {
+      name: "Is that a...pickaxe?",
+      challengeDescription: "Challenge the pickaxe! First 2 challenges are applied.",
+      goal: new Decimal(1000),
+      rewardDescription: "Unlock a new layer.(Not done but stay tuned)",
+      countsAs: [11, 12],
+      unlocked() {return (hasChallenge("d", 21))}
     }
 },
 
