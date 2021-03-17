@@ -113,11 +113,25 @@ challenges: {
       name: "HUNGERY ep 1.",
       challengeDescription: "You are HUNGARY, only apple buyables work.",
       goal: new Decimal(500),
-      rewardDescription: "Upgrade passive generation to 25%, and unlock wood challenge",
+      rewardDescription: "Upgrade passive generation to 25%",
       unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
     },
+    13: {
+      name: "Sleeping Dirty",
+      challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
+      goal: new Decimal(1),
+      rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
+      unlocked() {return (hasChallenge("d", 12))}
 
-}
+    },
+    21: {
+      name: "Sleeping Dirty",
+      challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
+      goal: new Decimal(1),
+      rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
+      unlocked() {return (hasChallenge("d", 12))}
+    }
+},
 
 }
 )
