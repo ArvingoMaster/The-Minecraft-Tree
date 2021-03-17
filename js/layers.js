@@ -79,7 +79,7 @@ addLayer("d", {
       effect() {
         let get = new Decimal(player.timePlayed)
         let ret = get.times(0.002).add(2)
-        if (ret.gte("3")) ret = ret.sqrt().times("1")
+        if (ret.gte("3")) ret = ret.sqrt().times("1.732")
         return ret;
 
       },
@@ -113,17 +113,10 @@ challenges: {
       name: "HUNGERY ep 1.",
       challengeDescription: "You are HUNGARY, only apple buyables work.",
       goal: new Decimal(500),
-      rewardDescription: "Upgrade passive generation to 25%",
+      rewardDescription: "Upgrade passive generation to 25%, and unlock wood challenge",
       unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
     },
-    13: {
-      name: "Sleeping Dirty",
-      challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
-      goal: new Decimal(1),
-      rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
-      unlocked() {return (hasChallenge("d", 12))}
 
-    }
 }
 
 }
@@ -139,7 +132,7 @@ addLayer("W", {
       Dirt: new Decimal(0),
   }},
   color: "#964B00",
-  requires: new Decimal (10000),
+  requires: new Decimal (1),
   resource: "Wood",
   baseResource: "energy",
   branches: ["d"],
