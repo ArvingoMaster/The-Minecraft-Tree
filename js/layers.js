@@ -201,7 +201,7 @@ addLayer("W", {
     return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) || player["S"].points.gte(1) || hasUpgrade("S", 21) }   ,
+    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) || player["S"].points.gte(1) || hasUpgrade("S", 14) }   ,
     milestones: {
         0: {
             requirementDescription: "5 Wood",
