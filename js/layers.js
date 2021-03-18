@@ -283,7 +283,7 @@ addLayer("W", {
             unlocked() {return hasMilestone(this.layer, 1)},
             cost(x) {
               let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
-              if (hasUpgrade("S", 21)) ret = ret.times(0.9)
+              if (hasUpgrade("S", 21)) cost = cost.times(0.9)
               return cost
             },
             display() {
