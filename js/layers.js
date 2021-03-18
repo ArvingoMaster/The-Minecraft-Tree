@@ -288,7 +288,7 @@ addLayer("W", {
             },
             display() {
               let data = tmp[this.layer].buyables[this.id]
-               let display = ("Cost: " + formatWhole(data.cost) + " Wood. Apples boosts energy gain.") + "\n\ Amount: " + formatWhole(player[this.layer].buyables[this.id]) + "\n\ Currently " + formatWhole(buyableEffect(this.layer, this.id)) + "x"
+               let display = ("Cost: " + formatWhole(data.cost) + " Wood. Apples boosts energy gain.") + "\n\ Amount: " + format(player[this.layer].buyables[this.id]) + "\n\ Currently " + format(buyableEffect(this.layer, this.id)) + "x"
                return display
             },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
