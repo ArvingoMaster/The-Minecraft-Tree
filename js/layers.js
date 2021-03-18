@@ -111,7 +111,7 @@ addLayer("d", {
 },
 
 challenges: {
-    rows: 2,
+    rows: 3,
     cols: 2,
     11: {
         name: "Ouch ",
@@ -145,10 +145,18 @@ challenges: {
     22: {
       name: "Is that a...pickaxe?",
       challengeDescription: "Challenge the pickaxe! First 2 challenges are applied.",
-      goal: new Decimal(10),
+      goal: new Decimal(1000),
       rewardDescription: "Unlock a new layer.(Not done but stay tuned)",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 21))}
+    },
+    13: {
+      name: "Is that an...axe?",
+      challengeDescription: "First 2 challenges are applied, except goal is higher.",
+      goal: new Decimal(10000),
+      rewardDescription: "Unlock a new layer.(Not done but stay tuned)",
+      countsAs: [11, 12],
+      unlocked() {return (hasChallenge("d", 22) && hasUpgrade("S", 22))}
     }
 },
 
@@ -273,7 +281,10 @@ addLayer("W", {
         11: {
           title: "Apples",
             unlocked() {return hasMilestone(this.layer, 1)},
-            cost(x) { return new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)},
+            cost(x) {
+              let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
+              if (hasUpgrade("S", 21)) ret = ret.times(0.9)
+            },
             display() {
               let data = tmp[this.layer].buyables[this.id]
                let display = ("Cost: " + formatWhole(data.cost) + " Wood. Apples boosts energy gain.") + "\n\ Amount: " + formatWhole(player[this.layer].buyables[this.id]) + "\n\ Currently " + formatWhole(buyableEffect(this.layer, this.id)) + "x"
@@ -286,6 +297,7 @@ addLayer("W", {
             },
             effect() {
               let ret = new Decimal(getBuyableAmount(this.layer, this.id).times(4).sqrt().add(1))
+              if (hasUpgrade("S", 21)) ret = ret.times(3)
               return ret;
             },
 
@@ -380,6 +392,18 @@ upgrades: {
     description: "With your new come power, dirt passive generation boosts to 50%",
     cost: new Decimal(3),
     unlocked() {return hasUpgrade("S", 14)}
+  },
+  21: {
+    title: "How do you like them apples?",
+    description: "Boost your apples buff by 2x and price by 0.9x",
+    cost: new Decimal(5),
+    unlocked() {return hasUpgrade("S", 21)}
+  },
+  22: {
+    title: "There's a point to that dirt challenge?!",
+    description: "Beating 'Is that a...pickaxe?' will grant an additional reward if you have this upgrade.",
+    cost: new Decimal(10),
+    unlocked() {return hasUpgrade("S", 22)}
   }
 },
 })
