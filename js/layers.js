@@ -24,7 +24,7 @@ addLayer("d", {
     },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasChallenge("d", 11)) mult = mult.times(2)
+        if (hasChallenge("d", 11) || hasUpgrade("S", 14)) mult = mult.times(2)
         if (hasUpgrade("W", 11)) mult = mult.times(upgradeEffect("W", 11))
         if (hasMilestone("W", 0)) mult = mult.times(1.5)
         if (hasUpgrade("W", 22)) mult = mult.times(1.2)
@@ -38,7 +38,7 @@ addLayer("d", {
     passiveGeneration() {
       passive = new Decimal(0)
       if (hasUpgrade("W", 23))  passive = new Decimal(0.1)
-      if (hasChallenge("d", 12)) passive = new Decimal(0.25)
+      if (hasChallenge("d", 12) || hasUpgrade("S", 14)) passive = new Decimal(0.25)
       if (hasUpgrade("S", 15)) passive = new Decimal(0.5)
       return passive
     },
@@ -369,7 +369,7 @@ upgrades: {
   },
   14: {
     title: "OverOverOvercome",
-    description: "OverOverOvercome first 2 previous challenges, not able to complete them but get the buffs!",
+    description: "OverOverOvercome first 2 dirt challenges, not able to complete them but get the buffs!",
     cost: new Decimal(2),
     unlocked() {return hasUpgrade("S", 11) && hasUpgrade("S", 12) && hasUpgrade("S", 13)}
   },
