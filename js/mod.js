@@ -12,14 +12,17 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Dirty Wood",
+	num: "1.0",
+	name: "STONE AGE",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.0</h3><br>
-		- Dirt and Wood!<br>
-		- They have upgrades and some milestons`
+		- Stone!<br>
+		- Not Done!
+		<h3>v0.0</h3><br>
+			- Dirt and Wood!<br>
+			- They have upgrades and some milestons`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
