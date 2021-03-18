@@ -12,7 +12,16 @@ addLayer("d", {
     baseResource: "energy", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    exponent: 0.5,
+    update(diff) {
+      if (hasUpgrade("S", 11)) {
+        buyUpgrade("d", 11)
+        buyUpgrade("d", 12)
+        buyUpgrade("d", 21)
+        buyUpgrade("d", 22)
+        buyUpgrade("d", 23)
+      }
+    },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasChallenge("d", 11)) mult = mult.times(2)
@@ -134,7 +143,7 @@ challenges: {
     22: {
       name: "Is that a...pickaxe?",
       challengeDescription: "Challenge the pickaxe! First 2 challenges are applied.",
-      goal: new Decimal(1000),
+      goal: new Decimal(10),
       rewardDescription: "Unlock a new layer.(Not done but stay tuned)",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 21))}
@@ -154,7 +163,7 @@ addLayer("W", {
       Dirt: new Decimal(0),
   }},
   color: "#964B00",
-  requires: new Decimal (1),
+  requires: new Decimal (10000),
   resource: "Wood",
   baseResource: "energy",
   branches: ["d"],
@@ -282,4 +291,49 @@ addLayer("W", {
     }
 
 
+})
+addLayer("S", {
+  name: "Stone",
+  symbol: "S",
+  position: 0,
+  row: 2,
+  startData() { return {
+      unlocked: true,
+      points: new Decimal(0),
+      total: new Decimal(0)
+  }},
+  color: "#C0C0C0",
+  requires: new Decimal (10000),
+  resource: "Stone",
+  baseResource: "Wood",
+  branches: ["W"],
+  baseAmount() { return player["W"].points },
+    // A function to return the current amount of baseResource.
+
+
+
+  type: "normal",                         // Determines the formula used for calculating prestige currency.
+  exponent: 0.30103,                          // "normal" prestige gain is (currency^exponent).
+
+  gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+    mult = new Decimal(1)
+
+    return mult              // Factor in any bonuses multiplying gain here.
+    },
+    gainExp() {                             // Returns your exponent to your gain of the prestige resource.
+    return new Decimal(1)
+    },
+
+    layerShown() { return hasChallenge("d", 22) || player[this.layer].points.gte(1) || hasUpgrade("S", 11)},
+
+
+upgrades: {
+  rows: 3,
+  cols: 5,
+  11: {
+    title: "Experience",
+    description: "Knowing what to do after you reset after this point, you can auto buy dirt upgrades.",
+    cost: new Decimal(1)
+  }
+}
 })
