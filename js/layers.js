@@ -7,7 +7,7 @@ addLayer("d", {
         points: new Decimal(0)
     }},
     color: "#964B00",
-    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "Dirt", // Name of prestige currency
     baseResource: "energy", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -284,6 +284,7 @@ addLayer("W", {
             cost(x) {
               let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
               if (hasUpgrade("S", 21)) ret = ret.times(0.9)
+              return cost
             },
             display() {
               let data = tmp[this.layer].buyables[this.id]
