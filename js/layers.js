@@ -140,7 +140,7 @@ challenges: {
       challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
       goal: new Decimal(1),
       rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
-      unlocked() {return (hasChallenge("d", 12) || hasUpgrade("S", 14))}
+      unlocked() {return (hasChallenge("d", 12) || hasUpgrade("S", 14) && hasMilestone("W", 2))}
     },
     22: {
       name: "Is that a...pickaxe?",
