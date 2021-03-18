@@ -285,7 +285,7 @@ addLayer("W", {
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect() {
-              let ret = new Decimal(getBuyableAmount(this.layer, this.id).times(4).sqrt())
+              let ret = new Decimal(getBuyableAmount(this.layer, this.id).times(4).sqrt().add(1))
               return ret;
             },
 
@@ -352,6 +352,7 @@ upgrades: {
       if (ret.gte("25")) ret = ret.sqrt().times("5")
       return ret;
   },
+  effectDisplay() { return format(this.effect())+"x" },
 },
   13: {
     title: "Motivating the Motivating Motivation",
@@ -366,6 +367,7 @@ upgrades: {
       if (ret.gte("25")) ret = ret.sqrt().times("5")
       return ret;
     },
+    effectDisplay() { return format(this.effect())+"x" },
   },
   14: {
     title: "OverOverOvercome",
