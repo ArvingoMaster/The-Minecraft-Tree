@@ -29,6 +29,7 @@ addLayer("d", {
         if (hasMilestone("W", 0)) mult = mult.times(1.5)
         if (hasUpgrade("W", 22)) mult = mult.times(1.2)
         if (hasUpgrade("W", 25)) mult = mult.times(2)
+        if (hasUpgrade("S", 12)) mult = mult.times(upgradeEffect("S", 12))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -38,6 +39,7 @@ addLayer("d", {
       passive = new Decimal(0)
       if (hasUpgrade("W", 23))  passive = new Decimal(0.1)
       if (hasChallenge("d", 12)) passive = new Decimal(0.25)
+      if (hasUpgrade("S", 15)) passive = new Decimal(0.5)
       return passive
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -116,14 +118,14 @@ challenges: {
         challengeDescription: "description of ouchie, you are dirty and square rooted lol.",
         goal: new Decimal(500),
         rewardDescription: "2x dirt",
-        unlocked() {return (hasUpgrade(this.layer, 24))},
+        unlocked() {return (hasUpgrade(this.layer, 24) && !hasUpgrade("S", 14))},
     },
     12: {
       name: "HUNGERY ep 1.",
       challengeDescription: "You are HUNGARY, only apple buyables work.",
       goal: new Decimal(500),
       rewardDescription: "Upgrade passive generation to 25%",
-      unlocked() {return (hasMilestone("W", 2)) && hasChallenge("d", 11)}
+      unlocked() {return (hasMilestone("W", 2) && hasChallenge("d", 11) && !hasUpgrade("S", 14))}
     },
     13: {
       name: "Sleeping Dirty",
@@ -184,13 +186,14 @@ addLayer("W", {
     if (hasUpgrade("W", 24)) mult = mult.times(2)
     if (hasUpgrade("W", 25)) mult = mult.times(2)
     if (hasUpgrade("W", 12)) mult = mult.times(1.5)
+    if (hasUpgrade("S", 13)) mult = mult.times(upgradeEffect("S", 13))
     return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
     return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) }   ,
+    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) || player["S"].points.gte(1) }   ,
     milestones: {
         0: {
             requirementDescription: "5 Wood",
@@ -218,8 +221,8 @@ addLayer("W", {
         unlocked() {return (player[this.layer].points.gte("1")) || hasUpgrade(this.layer, 11)},
         effect() {
           let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
-          if (ret.gte("2")) ret = ret.sqrt()
-          if (ret.gte("10")) ret = ret.sqrt().times("2")
+          if (ret.gte("2")) ret = ret.sqrt().times("1.41")
+          if (ret.gte("10")) ret = ret.sqrt().times("3")
           if (ret.gte("25")) ret = ret.sqrt().times("5")
           return ret;
         },
@@ -229,7 +232,7 @@ addLayer("W", {
       },
       12: {
         title: "Jump Boost!",
-        description: "You train your feet in order to reach higher, whihc allows for 1.5x wood! Looks like you are extremely tired though...",
+        description: "You train your feet in order to reach higher, which allows for 1.5x wood! Looks like you are extremely tired though...",
         cost: new Decimal(10),
         unlocked() {return hasUpgrade("W", 22)}
       },
@@ -334,6 +337,47 @@ upgrades: {
     title: "Experience",
     description: "Knowing what to do after you reset after this point, you can auto buy dirt upgrades.",
     cost: new Decimal(1)
+  },
+  12: {
+    title: "Hatred...",
+    description: "Stone resetting everything increases your hatred...increase your dirt gain by total stone.",
+    cost: new Decimal(1),
+    effect() {
+      let ret = player[this.layer].total.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
+      if (ret.gte("2")) ret = ret.sqrt().times("1.41")
+      if (ret.gte("3")) ret = ret.sqrt().times("1.77")
+      if (ret.gte("4")) ret = ret.sqrt().times("2")
+      if (ret.gte("9")) ret = ret.sqrt().times("3")
+      if (ret.gte("16")) ret = ret.sqrt().times("4")
+      if (ret.gte("25")) ret = ret.sqrt().times("5")
+      return ret;
+  },
+},
+  13: {
+    title: "Motivating the Motivating Motivation",
+    description: "Boost wood gain a little by unspent stone",
+    cost: new Decimal(1),
+    effect() {
+      let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
+      if (ret.gte("2")) ret = ret.sqrt().times("1.41")
+      if (ret.gte("4")) ret = ret.sqrt().times("2")
+      if (ret.gte("9")) ret = ret.sqrt().times("3")
+      if (ret.gte("16")) ret = ret.sqrt().times("4")
+      if (ret.gte("25")) ret = ret.sqrt().times("5")
+      return ret;
+    },
+  },
+  14: {
+    title: "OverOverOvercome",
+    description: "OverOverOvercome first 2 previous challenges, not able to complete them but get the buffs!",
+    cost: new Decimal(2),
+    unlocked() {return hasUpgrade("S", 11) && hasUpgrade("S", 12) && hasUpgrade("S", 13)}
+  },
+  15: {
+    title: "OverOverOverpowered.",
+    description: "With your new come power, dirt passive generation boosts to 50%",
+    cost: new Decimal(3),
+    unlocked() {return hasUpgrade("S", 14)}
   }
-}
+},
 })
