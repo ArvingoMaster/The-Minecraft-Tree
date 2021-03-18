@@ -17,8 +17,8 @@ addLayer("d", {
       if (hasUpgrade("S", 11)) {
         buyUpgrade("d", 11)
         buyUpgrade("d", 12)
-        buyUpgrade("d", 21)
         buyUpgrade("d", 22)
+        buyUpgrade("d", 23)
         buyUpgrade("d", 24)
       }
     },
