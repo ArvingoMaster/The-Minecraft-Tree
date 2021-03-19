@@ -150,11 +150,19 @@ challenges: {
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 21))}
     },
-    13: {
+    23: {
       name: "Is that an...axe?",
       challengeDescription: "First 2 challenges are applied, except goal is higher.",
       goal: new Decimal(10000),
       rewardDescription: "Unlock a new layer.(Not done but stay tuned)",
+      countsAs: [11, 12],
+      unlocked() {return (hasChallenge("d", 22) && hasUpgrade("S", 22))}
+    },
+    31: {
+      name: "Is that an...axe?",
+      challengeDescription: "First 2 challenges are applied, except goal is higher.",
+      goal: new Decimal(10000),
+      rewardDescription: "Unlock a something new(Ima done coding for the day, wait for tom!)",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 22) && hasUpgrade("S", 22))}
     }
