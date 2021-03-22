@@ -333,7 +333,7 @@ challenges: {
     name: "Burn Baby Burn!",
     challengeDescription: "Wood will be set to nada",
     rewardDescription: "Unlock new stuff again",
-    goal: new Decimal(1000000000),
+    goal: new Decimal(100000000000),
     unlocked() {return hasChallenge("W", 11)}
   }
 }
