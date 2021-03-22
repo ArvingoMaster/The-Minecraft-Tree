@@ -148,7 +148,7 @@ challenges: {
       name: "Is that a...pickaxe?",
       challengeDescription: "Challenge the pickaxe! First 2 challenges are applied.",
       goal: new Decimal(1000),
-      rewardDescription: "Unlock a new layer.(Not done but stay tuned)",
+      rewardDescription: "Unlock a new layer.",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 21))}
     },
@@ -163,7 +163,7 @@ challenges: {
     31: {
       name: "Is that an...axe?",
       challengeDescription: "First 2 challenges are applied, except goal is higher.",
-      goal: new Decimal(20000),
+      goal: new Decimal(10001),
       rewardDescription: "Unlock a something new",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 22) && hasUpgrade("S", 22))}
@@ -323,7 +323,7 @@ challenges: {
     name: "I NEED DIRT",
     challengeDescription: "Dirt gain is very bad so ya",
     goalDescription: "100 Dirt",
-    rewardDescription: "Unlock more challenge and 3x Dirt (Not done)",
+    rewardDescription: "Unlock more challenge and 3x Dirt",
     canComplete() {
       return player["d"].points.gte(100)
     },
@@ -332,7 +332,7 @@ challenges: {
   12: {
     name: "Burn Baby Burn!",
     challengeDescription: "Wood will be set to nada",
-    rewardDescription: "Unlock new stuff again",
+    rewardDescription: "Unlock new stuff again(NOT DONE)",
     goal: new Decimal(100000000000),
     unlocked() {return hasChallenge("W", 11)}
   }
