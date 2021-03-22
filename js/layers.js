@@ -205,6 +205,7 @@ addLayer("W", {
     if (hasUpgrade("W", 25)) mult = mult.times(2)
     if (hasUpgrade("W", 12)) mult = mult.times(1.5)
     if (hasUpgrade("S", 13)) mult = mult.times(upgradeEffect("S", 13))
+    if (inChallenge("W", 12)) player[this.layer].points = new Decimal(0)
     return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
@@ -327,6 +328,13 @@ challenges: {
       return player["d"].points.gte(100)
     },
     unlocked() {return hasChallenge("d", 31) || inChallenge("W", 11) || hasChallenge("W", 11)}
+  },
+  12: {
+    name: "Burn Baby Burn!",
+    challengeDescription: "Wood will be set to nada",
+    rewardDescription: "Unlock new stuff again",
+    goal: new Decimal(1000000000),
+    unlocked() {return hasChallenge("W", 11)}
   }
 }
 
