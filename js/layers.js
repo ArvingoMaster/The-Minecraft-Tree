@@ -30,6 +30,7 @@ addLayer("d", {
         if (hasUpgrade("W", 22)) mult = mult.times(1.2)
         if (hasUpgrade("W", 25)) mult = mult.times(2)
         if (hasUpgrade("S", 12)) mult = mult.times(upgradeEffect("S", 12))
+        if (inChallenge("W", 11)) mult = mult.times(0.0001)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -161,8 +162,8 @@ challenges: {
     31: {
       name: "Is that an...axe?",
       challengeDescription: "First 2 challenges are applied, except goal is higher.",
-      goal: new Decimal(10000),
-      rewardDescription: "Unlock a something new(Ima done coding for the day, wait for tom!)",
+      goal: new Decimal(20000),
+      rewardDescription: "Unlock a something new",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 22) && hasUpgrade("S", 22))}
     }
@@ -312,8 +313,21 @@ addLayer("W", {
 
         },
 
-    }
-
+    },
+challenges: {
+  rows: 1,
+  cols: 2,
+  11: {
+    name: "I NEED DIRT",
+    challengeDescription: "Dirt gain is very bad so ya",
+    goalDescription: "100 Dirt",
+    rewardDescription: "Unlock more challenge and 3x Dirt (Not done)",
+    canComplete() {
+      return player["d"].points.gte(100)
+    },
+    unlocked() {return hasChallenge("d", 31) || inChallenge("W", 11) || hasChallenge("W", 11)}
+  }
+}
 
 })
 addLayer("S", {
