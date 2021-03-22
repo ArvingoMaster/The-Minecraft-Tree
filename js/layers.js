@@ -163,7 +163,7 @@ challenges: {
     31: {
       name: "Is that an...axe?",
       challengeDescription: "First 2 challenges are applied, except goal is higher.",
-      goal: new Decimal(10001),
+      goal: new Decimal(2000),
       rewardDescription: "Unlock a something new",
       countsAs: [11, 12],
       unlocked() {return (hasChallenge("d", 22) && hasUpgrade("S", 22))}
