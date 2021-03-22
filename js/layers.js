@@ -434,7 +434,7 @@ upgrades: {
   22: {
     title: "There's a point to that dirt challenge?!",
     description: "Beating 'Is that a...pickaxe?' will grant an additional reward if you have this upgrade.",
-    cost: new Decimal(10),
+    cost: new Decimal(5),
     unlocked() {return hasUpgrade("S", 21)}
   }
 },
