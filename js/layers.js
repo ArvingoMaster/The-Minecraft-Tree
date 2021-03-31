@@ -122,6 +122,13 @@ challenges: {
         rewardDescription: "2x dirt",
         unlocked() {return (hasUpgrade(this.layer, 24) && !hasUpgrade("S", 14))},
     },
+    11: {
+        name: "Ouch ",
+        challengeDescription: "description of ouchie, you are dirty and square rooted lol.",
+        goal: new Decimal(500),
+        rewardDescription: "2x dirt",
+        unlocked() {return (hasUpgrade(this.layer, 24) && !hasUpgrade("S", 14))},
+    },
     12: {
       name: "HUNGERY ep 1.",
       challengeDescription: "You are HUNGARY, only apple buyables work.",
@@ -436,6 +443,74 @@ upgrades: {
     description: "Beating 'Is that a...pickaxe?' will grant an additional reward if you have this upgrade.",
     cost: new Decimal(5),
     unlocked() {return hasUpgrade("S", 21)}
-  }
+  },
 },
 })
+addLayer("c", {
+    startData() { return {                  // startData is a function that returns default data for a layer.
+        unlocked: true,                     // You can add more variables here to add them to your layer.
+        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+    }},
+
+    color: "#777777",                       // The color for this layer, which affects many elements.
+    resource: "Coal",            // The name of this layer's main prestige resource.
+    row: 2,
+    position: 1,                                 // The row this layer is on (0 is the first row).
+    branches: ["W"],
+    baseResource: "energy",                 // The name of the resource your prestige gain is based on.
+    baseAmount() { return player.points },  // A function to return the current amount of baseResource.
+
+    requires: new Decimal(1e10),              // The amount of the base needed to  gain 1 of the prestige currency.
+    base: 4,                              // Also the amount required to unlock the layer.
+
+    type: "static",                         // Determines the formula used for calculating prestige currency.
+    exponent: 1.2,                          // "normal" prestige gain is (currency^exponent).
+    canBuyMax() { return false},
+    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    },
+    gainExp() {                             // Returns your exponent to your gain of the prestige resource.
+        return new Decimal(1)
+    },
+
+    layerShown() { return hasChallenge("W", 12) || hasUpgrade("c", 11) || player[this.layer].points.gte(1) },
+    upgrades: {
+      rows: 1,
+      cols: 5,
+      11: {
+        title: "Make it actually do stuff",
+        description: "Coal multiplies your point gain. Can be softcapped.",
+        cost: new Decimal(1),
+        effect() {
+          let ret = new Decimal(1)
+          let base = new Decimal(1)
+          base = base.times(upgradeEffect("c", 12))
+          ret = base.exp(player[this.layer].points)
+          if (ret.lte(1)) ret = new Decimal(1)
+          if (ret.gte(100)) ret.times(100).sqrt()
+          if (ret.gte(200)) ret.times(200).sqrt()
+          if (ret.gte(300)) ret.times(300).sqrt()
+          return ret
+        },
+        effectDisplay() { return format(upgradeEffect("c", 11))+"x" },
+      },
+      12: {
+        title: "I burn woodemon go everyday.",
+        description: "Wood increases your coal multi",
+        cost: new Decimal(1),
+        unlocked() {return hasUpgrade("c", 11)},
+        effect() {
+          let ret = player["W"].points.times(0.001).add(1)
+          if (ret.gte("2")) ret = ret.sqrt().times("1.41")
+          if (ret.gte("3")) ret = ret.sqrt().times("1.77")
+          if (ret.gte("4")) ret = ret.sqrt().times("2")
+          if (ret.gte("9")) ret = ret.sqrt().times("3")
+          if (ret.gte("16")) ret = ret.sqrt().times("4")
+          if (ret.gte("25")) ret = ret.sqrt().times("5")
+          return ret
+        },
+        effectDisplay() { return format(upgradeEffect("c", 12))+"x" },
+      }
+    }
+
+  })

@@ -19,7 +19,7 @@ let VERSION = {
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v1.0</h3><br>
 		- Stone!<br>
-		- Not Done!<br>
+		- Done!<br>
 		<h3>v0.0</h3><br>
 			- Dirt and Wood!<br>
 			- They have upgrades and some milestons`
@@ -58,7 +58,7 @@ function getPointGen() {
 	if (hasMilestone("W", 1)) gain = gain.times(buyableEffect("W", 11))
 	if (inChallenge("d", 11) && inChallenge("d", 12)) gain = gain.sqrt()
 	if (hasChallenge("d", 21)) gain = gain.add(1)
-	return gain;
+	return gain
 
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
