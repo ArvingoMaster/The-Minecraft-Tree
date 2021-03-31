@@ -444,6 +444,13 @@ upgrades: {
     cost: new Decimal(5),
     unlocked() {return hasUpgrade("S", 21)}
   },
+  23: {
+    title: "Furnace 100%",
+    description: "Get a 1.5x buff to coal buff. Get the next upgrade to totally unlock secret!",
+    cost: new Decimal(10),
+    unlocked() {return hasUpgrade("c", 13)},
+  }
+
 },
 })
 addLayer("c", {
@@ -486,10 +493,14 @@ addLayer("c", {
           let base = new Decimal(1)
           base = base.times(upgradeEffect("c", 12))
           ret = base.exp(player[this.layer].points)
+          if (hasUpgrade("S", 23)) ret = ret.times(1.5)
           if (ret.lte(1)) ret = new Decimal(1)
-          if (ret.gte(100)) ret.times(100).sqrt()
-          if (ret.gte(200)) ret.times(200).sqrt()
-          if (ret.gte(300)) ret.times(300).sqrt()
+          if (ret.gte("100")) ret = ret.sqrt().times("10")
+          if (ret.gte("200")) ret = ret.sqrt().times("14.5")
+          if (ret.gte("300")) ret = ret.sqrt().times("17.2")
+          if (ret.gte("400")) ret = ret.sqrt().times("20")
+          if (ret.gte("900")) ret = ret.sqrt().times("30")
+          if (ret.gte("1600")) ret = ret.sqrt().times("40")
           return ret
         },
         effectDisplay() { return format(upgradeEffect("c", 11))+"x" },
@@ -500,16 +511,35 @@ addLayer("c", {
         cost: new Decimal(1),
         unlocked() {return hasUpgrade("c", 11)},
         effect() {
-          let ret = player["W"].points.times(0.001).add(1)
+          let ret = player["W"].points.times(0.001)
           if (ret.gte("2")) ret = ret.sqrt().times("1.41")
           if (ret.gte("3")) ret = ret.sqrt().times("1.77")
           if (ret.gte("4")) ret = ret.sqrt().times("2")
           if (ret.gte("9")) ret = ret.sqrt().times("3")
           if (ret.gte("16")) ret = ret.sqrt().times("4")
           if (ret.gte("25")) ret = ret.sqrt().times("5")
+          ret = ret.add(3)
           return ret
         },
         effectDisplay() { return format(upgradeEffect("c", 12))+"x" },
+      },
+      13: {
+        title: "Furnace 50%",
+        description: "Nada, NADA *cricket noises*, 0",
+        cost: new Decimal(3),
+        unlocked() {return hasUpgrade("c", 12)},
+      },
+      14: {
+        title: "THE PROPHECY",
+        description: "You realise there is no iron in the ground to continue...",
+        cost: new Decimal(1),
+        unlocked() {return hasUpgrade("S", 23)}
+      },
+      15: {
+        title: "THE PROPHECY 2.0",
+        description: "You must create 1e15 energy to reach iron, good luck! (NOT DONE)",
+        cost: new Decimal(1),
+        unlocked() {return hasUpgrade("c", 14)}
       }
     }
 

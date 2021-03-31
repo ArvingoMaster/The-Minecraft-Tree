@@ -12,8 +12,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0",
-	name: "STONE AGE",
+	num: "1.1",
+	name: "STONE AGE + Not important Coal",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -24,7 +24,7 @@ let changelog = `<h1>Changelog:</h1><br>
 			- Dirt and Wood!<br>
 			- They have upgrades and some milestons`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have finally beat the minecraft tree! Try to speedrun this game!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -58,6 +58,7 @@ function getPointGen() {
 	if (hasMilestone("W", 1)) gain = gain.times(buyableEffect("W", 11))
 	if (inChallenge("d", 11) && inChallenge("d", 12)) gain = gain.sqrt()
 	if (hasChallenge("d", 21)) gain = gain.add(1)
+	if (hasUpgrade("c", 11)) gain = gain.times(upgradeEffect("c", 11))
 	return gain
 
 }
