@@ -585,7 +585,7 @@ addLayer("c", {
     milestones: {
         0: {
             requirementDescription: "1 Iron",
-            effectDescription: "Keep wood upgrades on reset.",
+            effectDescription: "Keep wood upgrades on reset, and 5x energy unaffected by hungary and ouch.",
             done() { return player[this.layer].points.gte(1) }
         },
         1: {
