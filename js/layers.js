@@ -197,7 +197,22 @@ addLayer("W", {
   baseAmount() { return player.points },
     // A function to return the current amount of baseResource.
 
+  update(diff) {
+    if (hasMilestone("i", 0)) {
+        buyUpg("W", 11)
+        buyUpg("W", 12)
+        buyUpg("W", 21)
+        buyUpg("W", 22)
+        buyUpg("W", 23)
+        buyUpg("W", 24)
+        buyUpg("W", 25)
+         if (getBuyableAmount("W", 11).lt(100)) {
+           setBuyableAmount("W", 11, 100)
+         }
 
+
+      }
+    },
 
 
   type: "normal",                         // Determines the formula used for calculating prestige currency.
@@ -371,7 +386,7 @@ addLayer("S", {
 
   gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
     mult = new Decimal(1)
-
+    if (hasMilestone("i", 2)) mult = mult.times(2)
     return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
@@ -543,4 +558,45 @@ addLayer("c", {
       }
     }
 
+  })
+  addLayer("i", {
+    startData() { return {                  // startData is a function that returns default data for a layer.
+        unlocked: true,                     // You can add more variables here to add them to your layer.
+        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+    }},
+
+    color: "#D3D3D3",                       // The color for this layer, which affects many elements.
+    resource: "Iron",            // The name of this layer's main prestige resource.
+    row: 3,
+    position: 1,
+    type: "normal",
+    exponent: "0.5",
+    requires: new Decimal(1e15),                                // The row this layer is on (0 is the first row).
+    branches: ["S", "c"],
+    baseResource: "energy",                 // The name of the resource your prestige gain is based on.
+    baseAmount() { return player.points },
+    layerShown() { return hasUpgrade("c", 15) || player[this.layer].points.gte(1)},
+    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    },
+    gainExp() {                             // Returns your exponent to your gain of the prestige resource.
+        return new Decimal(1)
+    },
+    milestones: {
+        0: {
+            requirementDescription: "1 Iron",
+            effectDescription: "Keep wood upgrades on reset.",
+            done() { return player[this.layer].points.gte(1) }
+        },
+        1: {
+          requirementDescription: "2 Iron",
+          effectDescription: "Start with 100 apples",
+          done() { return player[this.layer].points.gte(2) }
+        },
+        2: {
+          requirementDescription: "4 Iron",
+          effectDescription: "2x Stone",
+          done() { return player[this.layer].points.gte(4) }
+        }
+      }
   })
