@@ -21,6 +21,21 @@ addLayer("d", {
         buyUpgrade("d", 23)
         buyUpgrade("d", 24)
       }
+      if (hasMilestone("i", 0) && player["W"].points.gte(1)) {
+          buyUpg("W", 11)
+          buyUpg("W", 12)
+          buyUpg("W", 21)
+          buyUpg("W", 22)
+          buyUpg("W", 23)
+          buyUpg("W", 24)
+          buyUpg("W", 25)
+          let ret = getBuyableAmount("W", 11)
+           if (ret.lt(100)) {
+             setBuyableAmount("W", 11, 100)
+           }
+
+
+        }
     },
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -197,22 +212,7 @@ addLayer("W", {
   baseAmount() { return player.points },
     // A function to return the current amount of baseResource.
 
-  update(diff) {
-    if (hasMilestone("i", 0)) {
-        buyUpg("W", 11)
-        buyUpg("W", 12)
-        buyUpg("W", 21)
-        buyUpg("W", 22)
-        buyUpg("W", 23)
-        buyUpg("W", 24)
-        buyUpg("W", 25)
-         if (getBuyableAmount("W", 11).lt(100)) {
-           setBuyableAmount("W", 11, 100)
-         }
 
-
-      }
-    },
 
 
   type: "normal",                         // Determines the formula used for calculating prestige currency.
