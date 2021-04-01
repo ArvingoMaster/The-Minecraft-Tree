@@ -330,7 +330,8 @@ addLayer("W", {
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect() {
-              let ret = new Decimal(getBuyableAmount(this.layer, this.id).times(4).sqrt().add(1))
+              let ret = new Decimal(getBuyableAmount(this.layer, this.id))
+              ret = ret.times(4).sqrt().add(1)
               if (hasUpgrade("S", 21)) ret = ret.times(2)
               return ret;
             },
