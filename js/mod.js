@@ -1,7 +1,7 @@
 let modInfo = {
 	name: "The Minecraft Tree",
 	id: "mymod",
-	author: "Arvin Hormati",
+	author: "ArvingoMaster",
 	pointsName: "energy",
 	discordName: "",
 	discordLink: "",

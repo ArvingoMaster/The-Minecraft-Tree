@@ -13,7 +13,9 @@ addLayer("d", {
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5,
+
     update(diff) {
+
       if (hasUpgrade("S", 11)) {
         buyUpgrade("d", 11)
         buyUpgrade("d", 12)
@@ -21,22 +23,10 @@ addLayer("d", {
         buyUpgrade("d", 23)
         buyUpgrade("d", 24)
       }
-      if (hasMilestone("i", 0) && player["W"].points.gte(1)) {
-          buyUpg("W", 11)
-          buyUpg("W", 12)
-          buyUpg("W", 21)
-          buyUpg("W", 22)
-          buyUpg("W", 23)
-          buyUpg("W", 24)
-          buyUpg("W", 25)
-          let ret = getBuyableAmount("W", 11)
-           if (ret.lt(100)) {
-             setBuyableAmount("W", 11, 100)
-           }
 
 
-        }
-    },
+},
+
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasChallenge("d", 11) || hasUpgrade("S", 14)) mult = mult.times(2)
@@ -317,6 +307,7 @@ addLayer("W", {
             cost(x) {
               let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
+              if (getBuyableAmount(this.layer, this.id).lt(100)) {cost = new Decimal(0)}
               return cost
             },
             display() {
@@ -586,18 +577,18 @@ addLayer("c", {
     milestones: {
         0: {
             requirementDescription: "1 Iron",
-            effectDescription: "Keep wood upgrades on reset, and 5x energy unaffected by hungary and ouch.",
+            effectDescription: "5x energy unaffected by hungary and ouch.",
             done() { return player[this.layer].points.gte(1) }
         },
         1: {
           requirementDescription: "2 Iron",
-          effectDescription: "Start with 100 apples",
+          effectDescription: "First 100 apples are free",
           done() { return player[this.layer].points.gte(2) }
         },
         2: {
-          requirementDescription: "4 Iron",
+          requirementDescription: "3 Iron",
           effectDescription: "2x Stone",
           done() { return player[this.layer].points.gte(4) }
-        }
+        },
       }
   })
