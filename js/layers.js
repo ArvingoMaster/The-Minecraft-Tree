@@ -307,7 +307,7 @@ addLayer("W", {
             cost(x) {
               let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
-              if (getBuyableAmount(this.layer, this.id).lt(100)) {cost = new Decimal(0)}
+              if (getBuyableAmount(this.layer, this.id).lt(100) & hasMilestone("i", 1)) {cost = new Decimal(0)}
               return cost
             },
             display() {
@@ -379,6 +379,7 @@ addLayer("S", {
   gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
     mult = new Decimal(1)
     if (hasMilestone("i", 2)) mult = mult.times(2)
+    if (getBuyableAmount("F", 11).gt(0)) mult = mult.times(buyableEffect("F", 11))
     return mult              // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
@@ -497,9 +498,10 @@ addLayer("c", {
         cost: new Decimal(1),
         effect() {
           let ret = new Decimal(1)
-          let base = new Decimal(1)
-          base = base.times(upgradeEffect("c", 12))
-          ret = base.exp(player[this.layer].points)
+          let exp = new Decimal(player[this.layer].points)
+          let base = new Decimal(2)
+          if (hasUpgrade("c", 12)) base = base.times(upgradeEffect("c", 12))
+          ret = base.pow(exp)
           if (hasUpgrade("S", 23)) ret = ret.times(1.5)
           if (ret.lte(1)) ret = new Decimal(1)
           if (ret.gte("100")) ret = ret.sqrt().times("10")
@@ -551,14 +553,14 @@ addLayer("c", {
     }
 
   })
-  addLayer("i", {
+  addLayer("F", {
     startData() { return {                  // startData is a function that returns default data for a layer.
-        unlocked: true,                     // You can add more variables here to add them to your layer.
+        unlocked: false,                     // You can add more variables here to add them to your layer.
         points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
     }},
 
-    color: "#D3D3D3",                       // The color for this layer, which affects many elements.
-    resource: "Iron",            // The name of this layer's main prestige resource.
+    color: "#d4f1f9",                       // The color for this layer, which affects many elements.
+    resource: "Fluid",            // The name of this layer's main prestige resource.
     row: 3,
     position: 1,
     type: "normal",
@@ -567,28 +569,89 @@ addLayer("c", {
     branches: ["S", "c"],
     baseResource: "energy",                 // The name of the resource your prestige gain is based on.
     baseAmount() { return player.points },
-    layerShown() { return hasUpgrade("c", 15) || player[this.layer].points.gte(1)},
+    layerShown() { return hasUpgrade("i", 11) || player[this.layer].points.gte(1)},
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
         return new Decimal(1)
     },
-    milestones: {
-        0: {
-            requirementDescription: "1 Iron",
-            effectDescription: "5x energy unaffected by hungary and ouch.",
-            done() { return player[this.layer].points.gte(1) }
+    buyables: {
+      rows: 1,
+      cols: 2,
+    11: {
+      title: "Water",
+        unlocked() {return true},
+        cost(x) {
+          let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
+          return cost
         },
-        1: {
-          requirementDescription: "2 Iron",
-          effectDescription: "First 100 apples are free",
-          done() { return player[this.layer].points.gte(2) }
+        display() {
+          let data = tmp[this.layer].buyables[this.id]
+           let display = ("Cost: " + formatWhole(data.cost) + " Fluid. Water boosts stone gain.") + "\n\ Amount: " + format(player[this.layer].buyables[this.id]) + "\n\ Currently " + format(buyableEffect(this.layer, this.id)) + "x"
+           return display
         },
-        2: {
-          requirementDescription: "3 Iron",
-          effectDescription: "2x Stone",
-          done() { return player[this.layer].points.gte(4) }
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+        effect() {
+          let ret = new Decimal(getBuyableAmount(this.layer, this.id).add(1))
+          ret = ret.times(15).log(10)
+          return ret;
         },
       }
-  })
+    }
+}),
+addLayer("i", {
+  startData() { return {                  // startData is a function that returns default data for a layer.
+      unlocked: false,                     // You can add more variables here to add them to your layer.
+      points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+  }},
+
+  color: "#D3D3D3",                       // The color for this layer, which affects many elements.
+  resource: "Iron",            // The name of this layer's main prestige resource.
+  row: 3,
+  position: 2,
+  type: "normal",
+  exponent: "0.5",
+  requires: new Decimal(1e15),                                // The row this layer is on (0 is the first row).
+  branches: ["S", "c"],
+  baseResource: "energy",                 // The name of the resource your prestige gain is based on.
+  baseAmount() { return player.points },
+  layerShown() { return hasUpgrade("c", 15) || player[this.layer].points.gte(1)},
+  gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+      return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+  },
+  gainExp() {                             // Returns your exponent to your gain of the prestige resource.
+      return new Decimal(1)
+  },
+  milestones: {
+      0: {
+          requirementDescription: "1 Iron",
+          effectDescription: "5x energy unaffected by hungary and ouch.",
+          done() { return player[this.layer].points.gte(1) }
+      },
+      1: {
+        requirementDescription: "2 Iron",
+        effectDescription: "First 100 apples are free",
+        done() { return player[this.layer].points.gte(2) }
+      },
+      2: {
+        requirementDescription: "3 Iron",
+        effectDescription: "2x Stone",
+        done() { return player[this.layer].points.gte(4) }
+      },
+    },
+upgrades: {
+  rows: 3,
+  cols: 3,
+  11: {
+    title: "Gimme that bucket",
+    description: "Unlock a new Layer, wait wat?!?!",
+    cost: new Decimal(3)
+  }
+},
+
+})
