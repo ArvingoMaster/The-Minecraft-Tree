@@ -584,7 +584,7 @@ addLayer("c", {
         unlocked() {return true},
         cost(x) {
           let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
-          return cost
+          return cost.floor()
         },
         display() {
           let data = tmp[this.layer].buyables[this.id]
@@ -597,8 +597,9 @@ addLayer("c", {
             setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
         },
         effect() {
-          let ret = new Decimal(getBuyableAmount(this.layer, this.id).add(1))
-          ret = ret.times(15).log(10)
+          let rte = new Decimal(getBuyableAmount(this.layer, this.id))
+          base = new Decimal(12)
+          let ret = new Decimal(base.pow(rte).log(10))
           return ret;
         },
       }
