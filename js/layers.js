@@ -572,7 +572,7 @@ addLayer("c", {
     baseAmount() { return player.points },
     layerShown() { return hasUpgrade("i", 11) || player[this.layer].points.gte(1)},
     gainMult() {
-        mult = new Deicmal(1)
+        mult = new Decimal(1)
         if (hasMilestone("F", 0)) mult = mult.times(2)
         if (hasMilestone("F", 1)) mult = mult.times(2)                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
