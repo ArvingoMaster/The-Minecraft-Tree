@@ -37,6 +37,7 @@ addLayer("d", {
         if (hasUpgrade("S", 12)) mult = mult.times(upgradeEffect("S", 12))
         if (inChallenge("W", 11)) mult = mult.times(0.0001)
         if (hasChallenge("W", 11)) mult = mult.times(3)
+        if (hasMilestone("F", 2)) mult = mult.times(9)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -570,12 +571,32 @@ addLayer("c", {
     baseResource: "energy",                 // The name of the resource your prestige gain is based on.
     baseAmount() { return player.points },
     layerShown() { return hasUpgrade("i", 11) || player[this.layer].points.gte(1)},
-    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+    gainMult() {
+        mult = new Deicmal(1)
+        if (hasMilestone("F", 0)) mult = mult.times(2)
+        if (hasMilestone("F", 1)) mult = mult.times(2)                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
         return new Decimal(1)
     },
+    milestones: {
+        0: {
+            requirementDescription: "10 Fluid",
+            effectDescription: "x2 Fluid Gain",
+            done() { return player[this.layer].points.gte(1) }
+        },
+        1: {
+          requirementDescription: "25 Fluid",
+          effectDescription: "x2.00000000000000000000000000000000000001 Fluid Gain",
+          done() { return player[this.layer].points.gte(2) }
+        },
+        2: {
+          requirementDescription: "69 Fluid",
+          effectDescription: "x6 Energy Gain, x9 Dirt Gain",
+          done() { return player[this.layer].points.gte(4) }
+        },
+      },
     buyables: {
       rows: 1,
       cols: 2,
