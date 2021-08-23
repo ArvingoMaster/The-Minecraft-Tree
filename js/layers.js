@@ -583,7 +583,7 @@ addLayer("c", {
     milestones: {
         0: {
             requirementDescription: "10 Fluid",
-            effectDescription: "x2 Fluid Gain",
+            effectDescription: "x2 Fluid Gain, endgame for now I guess",
             done() { return player[this.layer].points.gte(1) }
         },
         1: {
