@@ -225,7 +225,7 @@ addLayer("W", {
     return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) || player["S"].points.gte(1) || hasUpgrade("S", 14) }   ,
+    layerShown() { return hasChallenge("d", 11) || player[this.layer].points.gte(1) || hasUpgrade("W", 11) || player["S"].points.gte(1) || hasUpgrade("S", 14) || hasMilestone("F", 0) }   ,
     milestones: {
         0: {
             requirementDescription: "5 Wood",
@@ -387,7 +387,7 @@ addLayer("S", {
     return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("d", 22) || player[this.layer].points.gte(1) || hasUpgrade("S", 11) || player["F"].points.gte(1) || player["i"].points.gte(1)},
+    layerShown() { return hasChallenge("d", 22) || player[this.layer].points.gte(1) || hasUpgrade("S", 11) || hasMilestone("F", 11) || player["i"].points.gte(1) || hasMilestone("F", 0)},
 
 
 upgrades: {
@@ -489,7 +489,7 @@ addLayer("c", {
         return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("W", 12) || hasUpgrade("c", 11) || player[this.layer].points.gte(1) || player["F"].points.gte(1) || player["i"].points.gte(1) },
+    layerShown() { return hasChallenge("W", 12) || hasUpgrade("c", 11) || player[this.layer].points.gte(1) || hasMilestone("F", 0) || player["i"].points.gte(1)},
     upgrades: {
       rows: 1,
       cols: 5,
@@ -570,7 +570,7 @@ addLayer("c", {
     branches: ["S", "c"],
     baseResource: "energy",                 // The name of the resource your prestige gain is based on.
     baseAmount() { return player.points },
-    layerShown() { return hasUpgrade("i", 11) || player[this.layer].points.gte(1)},
+    layerShown() { return hasUpgrade("i", 11) || player[this.layer].points.gte(1) || getBuyableAmount(this.layer, 11).gte(1)},
     gainMult() {
         mult = new Decimal(1)
         if (hasMilestone("F", 0)) mult = mult.times(2)
@@ -582,17 +582,17 @@ addLayer("c", {
     },
     milestones: {
         0: {
-            requirementDescription: "10 Fluid",
+            requirementDescription: "1 Fluid",
             effectDescription: "x2 Fluid Gain, endgame for now I guess",
             done() { return player[this.layer].points.gte(1) }
         },
         1: {
-          requirementDescription: "25 Fluid",
+          requirementDescription: "2 Fluid",
           effectDescription: "x2.00000000000000000000000000000000000001 Fluid Gain",
           done() { return player[this.layer].points.gte(2) }
         },
         2: {
-          requirementDescription: "69 Fluid",
+          requirementDescription: "4 Fluid",
           effectDescription: "x6 Energy Gain, x9 Dirt Gain",
           done() { return player[this.layer].points.gte(4) }
         },
@@ -605,7 +605,7 @@ addLayer("c", {
         unlocked() {return true},
         cost(x) {
           let cost = new Decimal(getBuyableAmount(this.layer, this.id)).pow(1.3)
-          if cost.lte(0) {cost = new Decimal(1)}
+          if (cost.lte(0)) cost = new Decimal(1);
           return cost.floor()
         },
         display() {
