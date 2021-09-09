@@ -308,7 +308,11 @@ addLayer("W", {
             cost(x) {
               let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
-              if (getBuyableAmount(this.layer, this.id).lt(100) & hasMilestone("i", 1)) {cost = new Decimal(0)}
+              if (getBuyableAmount(this.layer, this.id).lt(100) & hasMilestone("i", 1))
+              {
+              cost = new Decimal(0)
+              setBuyableAmount("W", 11, getBuyableAmount(this.layer, this.id).add(1))
+              }
               return cost
             },
             display() {
@@ -643,7 +647,7 @@ addLayer("i", {
   branches: ["S", "c"],
   baseResource: "energy",                 // The name of the resource your prestige gain is based on.
   baseAmount() { return player.points },
-  layerShown() { return hasUpgrade("c", 15) || player[this.layer].points.gte(1)},
+  layerShown() { return hasUpgrade("c", 15) || player[this.layer].points.gte(1) || hasMilestone(this.layer, 0)},
   gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
       return new Decimal(1)               // Factor in any bonuses multiplying gain here.
   },
@@ -658,7 +662,7 @@ addLayer("i", {
       },
       1: {
         requirementDescription: "2 Iron",
-        effectDescription: "First 100 apples are free",
+        effectDescription: "First 100 apples are bought (scaling applies)",
         done() { return player[this.layer].points.gte(2) }
       },
       2: {
