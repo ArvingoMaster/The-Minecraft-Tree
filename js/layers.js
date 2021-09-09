@@ -387,7 +387,7 @@ addLayer("S", {
     return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("d", 22) || player[this.layer].points.gte(1) || hasUpgrade("S", 11)},
+    layerShown() { return hasChallenge("d", 22) || player[this.layer].points.gte(1) || hasUpgrade("S", 11) || player["F"].points.gte(1) || player["i"].points.gte(1)},
 
 
 upgrades: {
@@ -489,7 +489,7 @@ addLayer("c", {
         return new Decimal(1)
     },
 
-    layerShown() { return hasChallenge("W", 12) || hasUpgrade("c", 11) || player[this.layer].points.gte(1) },
+    layerShown() { return hasChallenge("W", 12) || hasUpgrade("c", 11) || player[this.layer].points.gte(1) || player["F"].points.gte(1) || player["i"].points.gte(1) },
     upgrades: {
       rows: 1,
       cols: 5,
@@ -604,7 +604,8 @@ addLayer("c", {
       title: "Water",
         unlocked() {return true},
         cost(x) {
-          let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
+          let cost = new Decimal(getBuyableAmount(this.layer, this.id)).pow(1.3)
+          if cost.lte(0) {cost = new Decimal(1)}
           return cost.floor()
         },
         display() {
