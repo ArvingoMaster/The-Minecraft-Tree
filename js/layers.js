@@ -306,10 +306,12 @@ addLayer("W", {
           title: "Apples",
             unlocked() {return hasMilestone(this.layer, 1)},
             cost(x) {
-              let cost = new Decimal(1).mul(x || getBuyableAmount(this.layer, this.id)).pow(1.3)
-              if (getBuyableAmount(this.layer, this.id).gte(100)) {cost = cost.pow(2)}
+              let buyableamt = new Decimal(getBuyableAmount(this.layer, this.id))
+              let cost = new Decimal(1).mul(getBuyableAmount(this.layer, this.id)).pow(1.3)
+              if (cost.lte(0)) cost = 1
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
-              if (getBuyableAmount(this.layer, this.id).lt(100) & hasMilestone("i", 1))
+              if (buyableamt.gte(100)) cost = cost.pow(1.8)
+              if (x||buyableamt.lt(100) && hasMilestone("i", 1))
               {
               cost = new Decimal(0)
               setBuyableAmount("W", 11, 100)
