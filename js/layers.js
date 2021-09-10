@@ -309,6 +309,7 @@ addLayer("W", {
               let buyableamt = new Decimal(getBuyableAmount(this.layer, this.id))
               let cost = new Decimal(1).mul(getBuyableAmount(this.layer, this.id)).pow(1.3)
               if (cost.lte(0)) cost = 1
+              cost = new Decimal(cost)
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
               if (buyableamt.gte(100)) cost = cost.pow(1.8)
               if (x||buyableamt.lt(100) && hasMilestone("i", 1))
