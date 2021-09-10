@@ -131,7 +131,7 @@ var systemComponents = {
 		<br><br>
 		Note by Jacorb: If anyone wishes to make a mod of this game, that is perfectly fine with me, just make sure to name it something different (ex: Prestige Tree NG+) and to let me know on <a href="https://discord.gg/wwQfgPa" target="_blank">my discord</a>.
 			<br><br>
-			Note by Arvin Hormati: You can mod my mod, just credit me. This is for my enjoyment only so I do not expect donations!
+			Note by ArvingoMaster: You can mod my mod, just credit me. This is for my enjoyment only so I do not expect donations!
 			<br>
         Time Played: {{ formatTime(player.timePlayed) }}<br><br>
         <h3>Hotkeys</h3><br>

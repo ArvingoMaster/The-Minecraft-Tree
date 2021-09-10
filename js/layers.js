@@ -311,7 +311,7 @@ addLayer("W", {
               if (getBuyableAmount(this.layer, this.id).lt(100) & hasMilestone("i", 1))
               {
               cost = new Decimal(0)
-              setBuyableAmount("W", 11, getBuyableAmount(this.layer, this.id).add(1))
+              setBuyableAmount("W", 11, 100)
               }
               return cost
             },
