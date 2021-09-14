@@ -6,32 +6,53 @@ addLayer("A", {
         unlocked: true,
         points: new Decimal(0)
     }},
-    color: "#964B00",
-    resource: "RICK ROLLS", // Name of prestige currency// Name of resource prestige is based on
+    color: "#F4F026",
+    resource: "RICK ROLLS COMPLETIONS", // Name of prestige currency// Name of resource prestige is based on
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: "side",
+    baseResource: "MEMES (Current meme: Amongus sussy)",
     achievements: {
         rows: 2,
         cols: 5,
         11: {
             name: "Oh you found this tab",
             tooltip: "Get 1 Dirt",
-            done() {return player["d"].points.gte(1)}
+            done() {return player["d"].points.gte(1)},
+            onComplete() {
+              let haha = new Decimal(player["A"].points)
+              haha = haha.add(1)
+              player["A"].points = haha
+            }
         },
         12: {
             name: "Dirt Life",
             tooltip: "Get 1000 Dirt",
-            done() {return player["d"].points.gte(1000) }
+            done() {return player["d"].points.gte(1000) },
+            onComplete() {
+              let haha = new Decimal(player["A"].points)
+              haha = haha.add(1)
+              player["A"].points = haha
+            }
         },
         13: {
             name: "Minecraft starts here",
             tooltip: "Get 1 Wood",
-            done() {return player["W"].points.gte(1)}
+            done() {return player["W"].points.gte(1)},
+            onComplete() {
+              let haha = new Decimal(player["A"].points)
+              haha = haha.add(1)
+              player["A"].points = haha
+            }
         },
         14: {
             name: "Wood=Life?",
             tooltip: "Get 1000 Wood",
-            done() {return player["W"].points.gte(1000)}
+            done() {return player["W"].points.gte(1000)},
+            onComplete() {
+              let haha = new Decimal(player["A"].points)
+              haha = haha.add(1)
+              player["A"].points = haha
+            }
         },
         15: {
             name: "pen Apple apple pan",
@@ -39,13 +60,34 @@ addLayer("A", {
             done() {
               let buyableAmount = new Decimal(getBuyableAmount("W", 11))
               return buyableAmount.gte(100)
+            },
+            onComplete() {
+              let haha = new Decimal(player["A"].points)
+              haha = haha.add(1)
+              player["A"].points = haha
             }
         },
         21: {
             name: "IIIIIIII JUST WANT TO TELL YOU HOW IM FEELING (mining)",
             tooltip: "Get 1 Stones and why not RESET YOUR LIFE HAHAHAHAH",
-            done() {return player["S"].points.gte(1)}
+            done() {return player["S"].points.gte(1)},
+            onComplete() {
+              let haha = new Decimal(player["A"].points)
+              haha = haha.add(1)
+              player["A"].points = haha
+            }
         },
+        22: {
+          name: "A working furnace??? Your first reward: 5x energy",
+          tooltip: "Get 8 Stone and 100000 Wood",
+          done() {return player["S"].points.gte(8) && player["W"].points.gte(100000) },
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+          effect() {return new Decimal(5)}
+        }
 
     }
   },
@@ -159,7 +201,7 @@ addLayer("d", {
     },
     23: {
       title: "Dirty Shovela",
-      description: "Double Energy Gain, again!",
+      description: "Apply Powersurge effect again!",
       cost: new Decimal(25),
       unlocked() { return (hasUpgrade(this.layer, 22))},
     },
