@@ -1,3 +1,53 @@
+addLayer("A", {
+    name: "ach", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "A", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+        points: new Decimal(0)
+    }},
+    color: "#964B00",
+    resource: "RICK ROLLS", // Name of prestige currency// Name of resource prestige is based on
+    type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    row: "side",
+    achievements: {
+        rows: 2,
+        cols: 5,
+        11: {
+            name: "Oh you found this tab",
+            tooltip: "Get 1 Dirt",
+            done() {return player["d"].points.gte(1)}
+        },
+        12: {
+            name: "Dirt Life",
+            tooltip: "Get 1000 Dirt",
+            done() {return player["d"].points.gte(1000) }
+        },
+        13: {
+            name: "Minecraft starts here",
+            tooltip: "Get 1 Wood",
+            done() {return player["W"].points.gte(1)}
+        },
+        14: {
+            name: "Wood=Life?",
+            tooltip: "Get 1000 Wood",
+            done() {return player["W"].points.gte(1000)}
+        },
+        15: {
+            name: "pen Apple apple pan",
+            tooltip: "Get 100 Apples",
+            done() {return getBuyableAmount("W", 11).gte(100)}
+        },
+        21: {
+            name: "IIIIIIII JUST WANT TO TELL YOU HOW IM FEELING (mining)",
+            tooltip: "Get 1 Stones and why not RESET YOUR LIFE HAHAHAHAH",
+            done() {return player["S"].points.gte(1)}
+        },
+
+    }
+  },
+
+),
 addLayer("d", {
     name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "D", // This appears on the layer's node. Default is the id with the first letter capitalized
