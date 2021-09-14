@@ -36,7 +36,10 @@ addLayer("A", {
         15: {
             name: "pen Apple apple pan",
             tooltip: "Get 100 Apples",
-            done() {return getBuyableAmount("W", 11).gte(100)}
+            done() {
+              let buyableAmount = new Decimal(getBuyableAmount("W", 11))
+              return buyableAmount.gte(100)
+            }
         },
         21: {
             name: "IIIIIIII JUST WANT TO TELL YOU HOW IM FEELING (mining)",
