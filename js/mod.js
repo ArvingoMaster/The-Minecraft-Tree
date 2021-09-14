@@ -54,6 +54,7 @@ function getPointGen() {
 		if (hasUpgrade("W", 25)) gain = gain.times(2)
 		if (inChallenge("d", 21)) gain = gain.times(0.000000001).sqrt()
 		if (hasAchievement("A", 22)) gain = gain.times(achievementEffect("A", 22))
+		if (hasAchievement("A", 25)) gain = gain.times(3)
 	}
 
 	if (hasMilestone("W", 1)) gain = gain.times(buyableEffect("W", 11))

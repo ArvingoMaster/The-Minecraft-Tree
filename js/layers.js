@@ -87,8 +87,37 @@ addLayer("A", {
             player["A"].points = haha
           },
           effect() {return new Decimal(5)}
+        },
+        23: {
+          name: "An actual working furnace",
+          tooltip: "Get 1 coal and BURNNNNNNNN",
+          done() {return player["c"].points.gte(1) },
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        24: {
+          name: "This amount of energy is bad for your health",
+          tooltip: "Get 1e12 energy",
+          done() {return player.points.gte(1e12) },
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        25: {
+          name: "Ultra realistic am I right? Reward: 3x energy",
+          tooltip: "Get iron",
+          done() {return player["i"].points.gte(1) },
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
         }
-
     }
   },
 
