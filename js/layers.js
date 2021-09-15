@@ -429,6 +429,7 @@ addLayer("W", {
         11: {
           title: "Apples",
             unlocked() {return hasMilestone(this.layer, 1)},
+
             cost(x) {
               let buyableamt = new Decimal(getBuyableAmount(this.layer, this.id))
               let cost = new Decimal(1).mul(getBuyableAmount(this.layer, this.id)).pow(1.3)
@@ -618,8 +619,10 @@ addLayer("c", {
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
     },
-    gainExp() {                             // Returns your exponent to your gain of the prestige resource.
-        return new Decimal(1)
+    gainExp() {
+        let exp = new Decimal(1)
+        if (hasUpgrade("i", 14)) exp = exp.add(0.1)                            // Returns your exponent to your gain of the prestige resource.
+        return new Decimal(exp)
     },
 
     layerShown() { return hasChallenge("W", 12) || hasUpgrade("c", 11) || player[this.layer].points.gte(1) || hasMilestone("F", 0) || player["i"].points.gte(1)},
@@ -647,7 +650,7 @@ addLayer("c", {
           if (ret.gte("400")) ret = ret.sqrt().times("20")
           if (ret.gte("900")) ret = ret.sqrt().times("30")
           if (ret.gte("1600")) ret = ret.sqrt().times("40")
-          if (base.gte(50)) base = base.sqrt().times(sqrt(50))
+          if (base.gte(50)) base = base.sqrt().times(7.1)
           return ret
         },
         effectDisplay() { return format(upgradeEffect("c", 11))+"x" },
@@ -794,7 +797,21 @@ addLayer("i", {
       unlocked: false,                     // You can add more variables here to add them to your layer.
       points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
   }},
+  automate() {
+    if (hasUpgrade("i", 13)) {
+      buyUpgrade("W", 11)
+      buyUpgrade("W", 12)
+      buyUpgrade("W", 21)
+      buyUpgrade("W", 22)
+      buyUpgrade("W", 23)
+      buyUpgrade("W", 24)
+      buyUpgrade("W", 25)
 
+    }
+    if (hasUpgrade("i", 14)) {
+
+    }
+  },
   color: "#D3D3D3",                       // The color for this layer, which affects many elements.
   resource: "Iron",            // The name of this layer's main prestige resource.
   row: 3,
@@ -831,7 +848,7 @@ addLayer("i", {
     },
 upgrades: {
   rows: 3,
-  cols: 3,
+  cols: 5,
   11: {
     title: "Gimme that bucket",
     description: "Unlock a new Layer, wait wat?!?!",
@@ -840,8 +857,21 @@ upgrades: {
   12: {
     title: "Finally some QOL, I hate you game developer for waiting so long.",
     description: "You can buy max coal because protest",
-    cost: new Decimal(1)
+    cost: new Decimal(1),
+    unlocked() {return hasUpgrade(this.layer, 11)}
   },
+  13: {
+    title: "Everything hyperinflating, so does this upgrade",
+    description: "Autobuy wood upgrades (FINALLY)",
+    cost: new Decimal(50),
+    unlocked() {return hasUpgrade(this.layer, 12)}
+  },
+  14: {
+    title: "Iron Tools",
+    description: "1.05 more coal exponent",
+    cost: new Decimal(150),
+    unlocked() {return hasUpgrade(this.layer, 13)}
+  }
 },
 
 })
