@@ -451,7 +451,8 @@ addLayer("W", {
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
-                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                let b = new Decimal(getBuyableAmount(this.layer, this.id))
+                setBuyableAmount(this.layer, this.id, b.add(1))
             },
             effect() {
               let ret = new Decimal(getBuyableAmount(this.layer, this.id))
@@ -613,7 +614,7 @@ addLayer("c", {
 
     type: "static",                         // Determines the formula used for calculating prestige currency.
     exponent: 1.2,                          // "normal" prestige gain is (currency^exponent).
-    canBuyMax() { return false},
+    canBuyMax() { return hasUpgrade("i", 12)},
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
     },
@@ -634,6 +635,9 @@ addLayer("c", {
           let exp = new Decimal(player[this.layer].points)
           let base = new Decimal(2)
           if (hasUpgrade("c", 12)) base = base.times(upgradeEffect("c", 12))
+          b = getBuyableAmount("F", 12)
+          be = buyableEffect("F", 12)
+          if (b.gte(1)) base = base.times(be)
           ret = base.pow(exp)
           if (hasUpgrade("S", 23)) ret = ret.times(1.5)
           if (ret.lte(1)) ret = new Decimal(1)
@@ -643,6 +647,7 @@ addLayer("c", {
           if (ret.gte("400")) ret = ret.sqrt().times("20")
           if (ret.gte("900")) ret = ret.sqrt().times("30")
           if (ret.gte("1600")) ret = ret.sqrt().times("40")
+          if (base.gte(50)) base = base.sqrt().times(sqrt(50))
           return ret
         },
         effectDisplay() { return format(upgradeEffect("c", 11))+"x" },
@@ -707,7 +712,7 @@ addLayer("c", {
         mult = new Decimal(1)
         if (hasMilestone("F", 0)) mult = mult.times(2)
         if (hasMilestone("F", 1)) mult = mult.times(2)                            // Returns your multiplier to your gain of the prestige resource.
-        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+        return mult               // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
         return new Decimal(1)
@@ -753,10 +758,35 @@ addLayer("c", {
         effect() {
           let rte = new Decimal(getBuyableAmount(this.layer, this.id))
           base = new Decimal(12)
-          let ret = new Decimal(base.pow(rte).log(10))
+          let ret = new Decimal(base.pow(rte).log(13).add(1))
           return ret;
         },
-      }
+      },
+      12: {
+        title: "LAVA",
+          unlocked() {let b = new Decimal(getBuyableAmount(this.layer, 11)); return b.gte(1)},
+          cost(x) {
+            let cost = new Decimal(getBuyableAmount(this.layer, this.id)).pow(1.4)
+            if (cost.lte(0)) cost = new Decimal(1);
+            return cost.floor()
+          },
+          display() {
+            let data = tmp[this.layer].buyables[this.id]
+             let display = ("Cost: " + formatWhole(data.cost) + " Fluid. Lava boosts 'make it actually do stuff's BASE effect.") + "\n\ Amount: " + format(player[this.layer].buyables[this.id]) + "\n\ Currently " + format(buyableEffect(this.layer, this.id)) + "x"
+             return display
+          },
+          canAfford() { return player[this.layer].points.gte(this.cost()) },
+          buy() {
+              player[this.layer].points = player[this.layer].points.sub(this.cost())
+              setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+          },
+          effect() {
+            let rte = new Decimal(getBuyableAmount(this.layer, this.id))
+            base = new Decimal(15)
+            let ret = new Decimal(base.pow(rte).log(30).add(1))
+            return ret;
+          },
+        }
     }
 }),
 addLayer("i", {
@@ -806,7 +836,12 @@ upgrades: {
     title: "Gimme that bucket",
     description: "Unlock a new Layer, wait wat?!?!",
     cost: new Decimal(3)
-  }
+  },
+  12: {
+    title: "Finally some QOL, I hate you game developer for waiting so long.",
+    description: "You can buy max coal because protest",
+    cost: new Decimal(1)
+  },
 },
 
 })
