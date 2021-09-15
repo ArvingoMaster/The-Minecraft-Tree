@@ -155,6 +155,35 @@ addLayer("A", {
             player["A"].points = haha
           },
         },
+        34: {
+          name: "Since when did Water and Lava coexist?",
+          tooltip: "Get REKT (15 water and 15 lava)",
+          done() {
+            let buyableAmount = new Decimal(getBuyableAmount("F", 12))
+            let buyableAmountb = new Decimal(getBuyableAmount("F", 11))
+            return buyableAmount.gte(15) && buyableAmountb.gte(15)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        35: {
+          name: "Actual Apple Andy Amy Sadist",
+          tooltip: "Get 1000 Apples",
+          done() {
+            let buyableAmount = new Decimal(getBuyableAmount("W", 11))
+            return buyableAmount.gte(1000)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
     }
   },
 
@@ -474,6 +503,7 @@ addLayer("W", {
               cost = new Decimal(cost)
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
               if (buyableamt.gte(100)) cost = cost.pow(1.8)
+              if (buyableamt.gte(1000)) cost = cost.pow(1.5)
               if (x||buyableamt.lt(100) && hasMilestone("i", 1))
               {
               cost = new Decimal(0)
