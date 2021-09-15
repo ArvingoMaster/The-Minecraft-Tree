@@ -12,7 +12,7 @@ addLayer("A", {
     row: "side",
     baseResource: "MEMES (Current meme: Amongus sussy)",
     achievements: {
-        rows: 2,
+        rows: 3,
         cols: 5,
         11: {
             name: "Oh you found this tab",
@@ -117,7 +117,44 @@ addLayer("A", {
             haha = haha.add(1)
             player["A"].points = haha
           },
-        }
+        },
+        31: {
+          name: "developer you suck you gave another layer too soon",
+          tooltip: "Get fluid",
+          done() {return player["F"].points.gte(1) },
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        32: {
+          name: "My brain can't comprehend 2 buyables.",
+          tooltip: "Get lava",
+          done() {
+          let buyableAmount = new Decimal(getBuyableAmount("F", 12))
+          return buyableAmount.gte(1)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        33: {
+          name: "Are you ready kids? No",
+          tooltip: "Get all iron upgrades",
+          done() {
+          return hasUpgrade("i", 14)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
     }
   },
 
