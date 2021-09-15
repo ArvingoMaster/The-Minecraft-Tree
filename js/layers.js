@@ -212,7 +212,7 @@ addLayer("A", {
         },
         43: {
           name: "Costco sells fluid now!",
-          tooltip: "Get 420 fluid and sell it to Costco for 1.5x fluid membership",
+          tooltip: "Get 2500 fluid and sell it to Costco for 1.5x fluid membership",
           done() {
             return player["F"].points.gte(2500)
         },
