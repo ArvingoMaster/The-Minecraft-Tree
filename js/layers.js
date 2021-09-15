@@ -12,7 +12,7 @@ addLayer("A", {
     row: "side",
     baseResource: "MEMES (Current meme: Amongus sussy)",
     achievements: {
-        rows: 3,
+        rows: 4,
         cols: 5,
         11: {
             name: "Oh you found this tab",
@@ -176,6 +176,45 @@ addLayer("A", {
           done() {
             let buyableAmount = new Decimal(getBuyableAmount("W", 11))
             return buyableAmount.gte(1000)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        41: {
+          name: "Oh no! The floor is....dirt!!!",
+          tooltip: "Get 1e16 and ponder on why you got so much",
+          done() {
+            return player["d"].points.gte(1e16)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        42: {
+          name: "0h R3@11y?",
+          tooltip: "Get LEET stone and ponder on humanity's memes",
+          done() {
+            return player["S"].points.gte(1337)
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+        },
+        43: {
+          name: "Costco sells fluid now!",
+          tooltip: "Get 420 fluid and sell it to Costco for 1.5x fluid membership",
+          done() {
+            return player["F"].points.gte(2500)
         },
 
           onComplete() {
@@ -781,7 +820,8 @@ addLayer("c", {
     gainMult() {
         mult = new Decimal(1)
         if (hasMilestone("F", 0)) mult = mult.times(2)
-        if (hasMilestone("F", 1)) mult = mult.times(2)                            // Returns your multiplier to your gain of the prestige resource.
+        if (hasMilestone("F", 1)) mult = mult.times(2)
+        if (hasAchievement("A", 43)) mult = mult.times(1.5)                         // Returns your multiplier to your gain of the prestige resource.
         return mult               // Factor in any bonuses multiplying gain here.
     },
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
