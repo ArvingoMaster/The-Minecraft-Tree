@@ -10,7 +10,7 @@ addLayer("A", {
     resource: "RICK ROLLS COMPLETIONS", // Name of prestige currency// Name of resource prestige is based on
     type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     row: "side",
-    baseResource: "MEMES (Current meme: Amongus sussy)",
+    baseResource: "MEMES (Current meme: It's free real estate.)",
     achievements: {
         rows: 4,
         cols: 5,
