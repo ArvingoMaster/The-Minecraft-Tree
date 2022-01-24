@@ -727,7 +727,7 @@ addLayer("c", {
     baseResource: "energy",                 // The name of the resource your prestige gain is based on.
     baseAmount() { return player.points },
     hotkeys: [
-        {key: "C", description: "C: Reset for Coal.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "c", description: "C: Reset for Coal.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],  // A function to return the current amount of baseResource.
 
     requires: new Decimal(1e10),              // The amount of the base needed to  gain 1 of the prestige currency.
