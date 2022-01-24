@@ -304,7 +304,7 @@ addLayer("d", {
     },
     12: {
         title: "Motivation",
-        description: "Point generation is faster based on your unspent Dirt.",
+        description: "Energy generation is faster based on your unspent Dirt.",
         cost: new Decimal(5),
         unlocked() { return (hasUpgrade(this.layer, 11))},
         effect() { // Calculate bonuses from the upgrade. Can return a single value or an object with multiple values
@@ -381,7 +381,7 @@ challenges: {
     },
     21: {
       name: "Sleeping Dirty",
-      challengeDescription: "You are asleep, having /100,000,000 Energy Gain also square rooted, have fun!",
+      challengeDescription: "You are asleep, having /1,000,000,000 Energy Gain also square rooted, have fun!",
       goal: new Decimal(1),
       rewardDescription: "You have +1 energy gain protected from all challenge debuffs",
       unlocked() {return (hasChallenge("d", 12) || hasUpgrade("S", 14) && hasMilestone("W", 2))}
