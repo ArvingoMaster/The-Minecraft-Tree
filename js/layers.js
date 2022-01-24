@@ -430,6 +430,9 @@ addLayer("W", {
   baseResource: "energy",
   branches: ["d"],
   baseAmount() { return player.points },
+  hotkeys: [
+      {key: "w", description: "W: Reset for Wood.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+  ],
     // A function to return the current amount of baseResource.
 
 
@@ -543,10 +546,12 @@ addLayer("W", {
               if (hasUpgrade("S", 21)) cost = cost.times(0.9)
               if (buyableamt.gte(100)) cost = cost.pow(1.8)
               if (buyableamt.gte(1000)) cost = cost.pow(1.5)
-              if (x||buyableamt.lt(100) && hasMilestone("i", 1))
+              let startAmount = new Decimal(0)
+              if (hasMilestone("i", 1)) startAmount = new Decimal(100)
+              if (hasChallenge("F", 11)) startAmount = new Decimal(1000)
+              if (x||buyableamt.lt(startAmount))
               {
-              cost = new Decimal(0)
-              setBuyableAmount("W", 11, 100)
+              setBuyableAmount("W", 11, startAmount)
               }
               return cost
             },
@@ -587,7 +592,7 @@ challenges: {
   12: {
     name: "Burn Baby Burn!",
     challengeDescription: "Wood will be set to nada",
-    rewardDescription: "Unlock new stuff again(NOT DONE)",
+    rewardDescription: "Unlock new stuff again",
     goal: new Decimal(100000000000),
     unlocked() {return hasChallenge("W", 11)}
   }
@@ -605,11 +610,14 @@ addLayer("S", {
       total: new Decimal(0)
   }},
   color: "#C0C0C0",
-  requires: new Decimal (10000),
+  requires: new Decimal(10000),
   resource: "Stone",
   baseResource: "Wood",
   branches: ["W"],
   baseAmount() { return player["W"].points },
+  hotkeys: [
+      {key: "s", description: "S: Reset for Stone.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+  ],
     // A function to return the current amount of baseResource.
 
 
@@ -621,9 +629,12 @@ addLayer("S", {
     mult = new Decimal(1)
     if (hasMilestone("i", 2)) mult = mult.times(2)
     if (getBuyableAmount("F", 11).gt(0)) mult = mult.times(buyableEffect("F", 11))
+    if (inChallenge("F", 11)) mult = mult.times(0.001)
     return mult              // Factor in any bonuses multiplying gain here.
     },
-    gainExp() {                             // Returns your exponent to your gain of the prestige resource.
+    gainExp() {
+    exp = new Decimal(1);
+    if (inChallenge("F", 11)) exp = exp.times(0.9)                           // Returns your exponent to your gain of the prestige resource.
     return new Decimal(1)
     },
 
@@ -714,7 +725,10 @@ addLayer("c", {
     position: 1,                                 // The row this layer is on (0 is the first row).
     branches: ["W"],
     baseResource: "energy",                 // The name of the resource your prestige gain is based on.
-    baseAmount() { return player.points },  // A function to return the current amount of baseResource.
+    baseAmount() { return player.points },
+    hotkeys: [
+        {key: "C", description: "C: Reset for Coal.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],  // A function to return the current amount of baseResource.
 
     requires: new Decimal(1e10),              // The amount of the base needed to  gain 1 of the prestige currency.
     base: 4,                              // Also the amount required to unlock the layer.
@@ -757,6 +771,7 @@ addLayer("c", {
           if (ret.gte("900")) ret = ret.sqrt().times("30")
           if (ret.gte("1600")) ret = ret.sqrt().times("40")
           if (base.gte(50)) base = base.sqrt().times(7.1)
+          if (hasUpgrade("i", 14)) ret = ret.pow(1.5)
           return ret
         },
         effectDisplay() { return format(upgradeEffect("c", 11))+"x" },
@@ -793,7 +808,7 @@ addLayer("c", {
       },
       15: {
         title: "THE PROPHECY 2.0",
-        description: "You must create 1e15 energy to reach iron, good luck! (NOT DONE)",
+        description: "You must create 1e15 energy to reach iron, good luck!",
         cost: new Decimal(1),
         unlocked() {return hasUpgrade("c", 14)}
       }
@@ -812,6 +827,9 @@ addLayer("c", {
     position: 1,
     type: "normal",
     exponent: "0.5",
+    hotkeys: [
+        {key: "f", description: "F: Reset for fluid.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
     requires: new Decimal(1e15),                                // The row this layer is on (0 is the first row).
     branches: ["S", "c"],
     baseResource: "energy",                 // The name of the resource your prestige gain is based on.
@@ -897,7 +915,30 @@ addLayer("c", {
             return ret;
           },
         }
-    }
+    },
+    upgrades: {
+      rows: 1,
+      cols: 1,
+      11: {
+        title: "Tsunami Sweep",
+        description: "Unlock a fluid challenge.",
+        cost: new Decimal(1000)
+      },
+    },
+      challenges: {
+        rows: 1,
+        cols: 1,
+        11: {
+          name: "Tsunami Sweep",
+          challengeDescription: "Stone is crazy expensive with very harsh scaling",
+          goalDescription: "100 Stone",
+          rewardDescription: "Start with 1000 apples",
+          canComplete() {
+            return player["S"].points.gte(100)
+          },
+          unlocked() {return hasUpgrade("F", 11) }
+        },
+      },
 }),
 addLayer("i", {
   startData() { return {                  // startData is a function that returns default data for a layer.
@@ -920,7 +961,10 @@ addLayer("i", {
     }
   },
   color: "#D3D3D3",                       // The color for this layer, which affects many elements.
-  resource: "Iron",            // The name of this layer's main prestige resource.
+  resource: "Iron",
+  hotkeys: [
+      {key: "i", description: "I: Reset for Iron.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+  ],            // The name of this layer's main prestige resource.
   row: 3,
   position: 2,
   type: "normal",
