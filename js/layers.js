@@ -896,6 +896,8 @@ addLayer("c", {
         cost(x) {
           let cost = new Decimal(getBuyableAmount(this.layer, this.id)).pow(1.3)
           if (cost.lte(0)) cost = new Decimal(1);
+          buyableamt = getBuyableAmount(this.layer, this.id)
+          if (buyableamt.gte(100)) cost = cost.pow(1.8)
           return cost.floor()
         },
         display() {
@@ -920,8 +922,10 @@ addLayer("c", {
         title: "LAVA",
           unlocked() {let b = new Decimal(getBuyableAmount(this.layer, 11)); return b.gte(1)},
           cost(x) {
+            buyableamt = getBuyableAmount(this.layer, this.id)
             let cost = new Decimal(getBuyableAmount(this.layer, this.id)).pow(1.4)
             if (cost.lte(0)) cost = new Decimal(1);
+            if (buyableamt.gte(100)) cost = cost.pow(1.8)
             return cost.floor()
           },
           display() {
