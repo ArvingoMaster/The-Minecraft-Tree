@@ -279,6 +279,7 @@ addLayer("d", {
         if (hasUpgrade("W", 25)) mult = mult.times(2)
         if (hasUpgrade("S", 12)) mult = mult.times(upgradeEffect("S", 12))
         if (inChallenge("W", 11)) mult = mult.times(0.0001)
+        if (inChallenge("F", 21)) mult = mult.times(0.005)
         if (hasChallenge("W", 11)) mult = mult.times(3)
         if (hasMilestone("F", 2)) mult = mult.times(9)
         return mult
@@ -324,8 +325,8 @@ addLayer("d", {
         unlocked() { return (hasUpgrade(this.layer, 11))},
         effect() { // Calculate bonuses from the upgrade. Can return a single value or an object with multiple values
             let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
-            if (ret.gte("100")) ret = ret.sqrt().times("10")
-            if (ret.gte("1000")) ret = ret.sqrt().times("33")
+            if (ret.gte("100") && !(hasChallenge("F", 21))) ret = ret.sqrt().times("10")
+            if (ret.gte("1000")&& !(hasChallenge("F", 21))) ret = ret.sqrt().times("33")
             if (ret.gte("10000")) ret = ret.sqrt().times("100")
             if (ret.gte("100000")) ret = ret.sqrt().times("330")
 
@@ -453,6 +454,7 @@ addLayer("W", {
     passiveGeneration() {
       passive = new Decimal(0)
       if (hasUpgrade("i", 21)) passive = passive.add(0.1)
+      if (inChallenge("F", 21)) passive = new Decimal(0)
       return passive
 },
 
@@ -469,9 +471,10 @@ addLayer("W", {
     if (hasUpgrade("W", 25)) mult = mult.times(2)
     if (hasUpgrade("W", 12)) mult = mult.times(1.5)
     if (hasUpgrade("S", 13)) mult = mult.times(upgradeEffect("S", 13))
-    if (inChallenge("W", 12)) player[this.layer].points = new Decimal(0)
+    if (inChallenge("W", 12)|| inChallenge("F", 21)) player[this.layer].points = new Decimal(0)
     return mult              // Factor in any bonuses multiplying gain here.
     },
+    milestonePopups: false,
     gainExp() {                             // Returns your exponent to your gain of the prestige resource.
     return new Decimal(1)
     },
@@ -501,7 +504,7 @@ addLayer("W", {
         title: "Motivating Motivation",
         description: "Wood boosts your dirt gain by small amount.",
         cost: new Decimal(1),
-        unlocked() {return (player[this.layer].points.gte("1")) || hasUpgrade(this.layer, 11)},
+        unlocked() {return (player[this.layer].points.gte("1")) || hasUpgrade(this.layer, 11)|| inChallenge("F", 21)},
         effect() {
           let ret = player[this.layer].points.add(1).pow(player[this.layer].upgrades.includes(24)?1.1:(player[this.layer].upgrades.includes(14)?0.75:0.5))
           if (ret.gte("2")) ret = ret.sqrt().times("1.41")
@@ -950,7 +953,7 @@ addLayer("c", {
       },
     },
       challenges: {
-        rows: 1,
+        rows: 2,
         cols: 2,
         11: {
           name: "Tsunami Sweep",
@@ -969,6 +972,16 @@ addLayer("c", {
           rewardDescription: "Base coal boost + 0.2",
           canComplete() {
             return player.points.gte(1e21)
+          },
+          unlocked() {return hasUpgrade("F", 11) }
+        },
+        21: {
+          name: "Obsidian",
+          challengeDescription: "1st (less nerfs) and second wood challenge applied at the same time ",
+          goalDescription: "1,000,000,000 dirt",
+          rewardDescription: "Remove first 2 softcaps of motivation (dirt upgrade)",
+          canComplete() {
+            return player["d"].points.gte(1e9)
           },
           unlocked() {return hasUpgrade("F", 11) }
         },
