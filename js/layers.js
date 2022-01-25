@@ -983,7 +983,7 @@ addLayer("c", {
           canComplete() {
             return player["d"].points.gte(1e9)
           },
-          unlocked() {return hasUpgrade("F", 11) }
+          unlocked() {return hasChallenge("F", 11)&& hasChallenge("F", 12) }
         },
       },
 }),
