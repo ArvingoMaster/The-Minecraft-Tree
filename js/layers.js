@@ -223,6 +223,20 @@ addLayer("A", {
             player["A"].points = haha
           },
         },
+        44: {
+          name: "WATER=LIFE",
+          tooltip: "Get 100 water because nobody CARES",
+          done() {
+            amount = new Decimal(getBuyableAmount("F", 11))
+        },
+
+          onComplete() {
+            let haha = new Decimal(player["A"].points)
+            haha = haha.add(1)
+            player["A"].points = haha
+          },
+          unlocked() {return hasChallenge("F", 11)}
+        },
     }
   },
 
@@ -245,7 +259,7 @@ addLayer("d", {
 
     update(diff) {
 
-      if (hasUpgrade("S", 11)) {
+      if (hasUpgrade("S", 11) || hasUpgrade("i", 22)) {
         buyUpgrade("d", 11)
         buyUpgrade("d", 12)
         buyUpgrade("d", 22)
@@ -277,6 +291,7 @@ addLayer("d", {
       if (hasUpgrade("W", 23))  passive = new Decimal(0.1)
       if (hasChallenge("d", 12) || hasUpgrade("S", 14)) passive = new Decimal(0.25)
       if (hasUpgrade("S", 15)) passive = new Decimal(0.5)
+      if (hasUpgrade("i", 21)) passive = passive.add(0.1)
       return passive
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -328,6 +343,7 @@ addLayer("d", {
         let get = new Decimal(player.timePlayed)
         let ret = get.times(0.002).add(2)
         if (ret.gte("3")) ret = ret.sqrt().times("1.732")
+        if (ret.gte("40")) ret = new Decimal(40)
         return ret;
 
       },
@@ -434,8 +450,11 @@ addLayer("W", {
       {key: "w", description: "W: Reset for Wood.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
   ],
     // A function to return the current amount of baseResource.
-
-
+    passiveGeneration() {
+      passive = new Decimal(0)
+      if (hasUpgrade("i", 21)) passive = passive.add(0.1)
+      return passive
+},
 
 
   type: "normal",                         // Determines the formula used for calculating prestige currency.
@@ -757,10 +776,13 @@ addLayer("c", {
           let ret = new Decimal(1)
           let exp = new Decimal(player[this.layer].points)
           let base = new Decimal(2)
+          if (inChallenge("F", 12)) base = new Decimal(1.1)
+          if (hasChallenge("F", 12)) base = base.add(0.2)
           if (hasUpgrade("c", 12)) base = base.times(upgradeEffect("c", 12))
           b = getBuyableAmount("F", 12)
           be = buyableEffect("F", 12)
           if (b.gte(1)) base = base.times(be)
+
           ret = base.pow(exp)
           if (hasUpgrade("S", 23)) ret = ret.times(1.5)
           if (ret.lte(1)) ret = new Decimal(1)
@@ -887,6 +909,7 @@ addLayer("c", {
           let rte = new Decimal(getBuyableAmount(this.layer, this.id))
           base = new Decimal(12)
           let ret = new Decimal(base.pow(rte).log(13).add(1))
+          if (ret.gte("100")) ret = ret.sqrt().times("10")
           return ret;
         },
       },
@@ -912,6 +935,7 @@ addLayer("c", {
             let rte = new Decimal(getBuyableAmount(this.layer, this.id))
             base = new Decimal(15)
             let ret = new Decimal(base.pow(rte).log(30).add(1))
+            if (ret.gte("81")) ret = ret.sqrt().times("9")
             return ret;
           },
         }
@@ -927,7 +951,7 @@ addLayer("c", {
     },
       challenges: {
         rows: 1,
-        cols: 1,
+        cols: 2,
         11: {
           name: "Tsunami Sweep",
           challengeDescription: "Stone is crazy expensive with very harsh scaling",
@@ -935,6 +959,16 @@ addLayer("c", {
           rewardDescription: "Start with 1000 apples",
           canComplete() {
             return player["S"].points.gte(100)
+          },
+          unlocked() {return hasUpgrade("F", 11) }
+        },
+        12: {
+          name: "Scorching Volcano",
+          challengeDescription: "Base coal boost is reduced from 3 to 1.1",
+          goalDescription: "1e21 energy",
+          rewardDescription: "Base coal boost + 0.2",
+          canComplete() {
+            return player.points.gte(1e21)
           },
           unlocked() {return hasUpgrade("F", 11) }
         },
@@ -999,7 +1033,7 @@ addLayer("i", {
     },
 upgrades: {
   rows: 3,
-  cols: 5,
+  cols: 4,
   11: {
     title: "Gimme that bucket",
     description: "Unlock a new Layer, wait wat?!?!",
@@ -1022,6 +1056,18 @@ upgrades: {
     description: "1.05 more coal exponent",
     cost: new Decimal(150),
     unlocked() {return hasUpgrade(this.layer, 13)}
+  },
+  21: {
+    title: "Small Multitask",
+    description: "+10% wood gain and +10% dirt gain every second!",
+    cost: new Decimal(500),
+    unlocked() {return hasChallenge("F", 11) && hasChallenge("F",12)}
+  },
+  22: {
+    title: "More multitask",
+    description: "Start with auto dirt upgrades!",
+    cost: new Decimal(1000),
+    unlocked() {return hasChallenge("F", 11) && hasChallenge("F",12)}
   }
 },
 
