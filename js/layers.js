@@ -640,6 +640,11 @@ addLayer("S", {
   hotkeys: [
       {key: "s", description: "S: Reset for Stone.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
   ],
+  passiveGeneration() {
+    passive = new Decimal(0)
+    if (hasUpgrade("i", 23)) passive = new Decimal(0.01)
+    return passive
+},
     // A function to return the current amount of baseResource.
 
 
@@ -771,7 +776,7 @@ addLayer("c", {
       cols: 5,
       11: {
         title: "Make it actually do stuff",
-        description: "Coal multiplies your point gain. Can be softcapped.",
+        description: "Coal multiplies your point gain. Can be softcapped. (Like literally almost everything)",
         cost: new Decimal(1),
         effect() {
           let ret = new Decimal(1)
@@ -1086,7 +1091,7 @@ upgrades: {
   },
   23: {
     title: "Auto search",
-    description: "Tier 3 resets do NOT reset upgrades, milestones, and energy!",
+    description: "Guess you want auto stone upgrades? No you get 1% stone every second",
     cost: new Decimal(1000000),
     unlocked() {return hasChallenge("F", 11) && hasChallenge("F",12)}
   }
