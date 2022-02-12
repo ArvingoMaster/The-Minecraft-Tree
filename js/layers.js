@@ -615,7 +615,7 @@ challenges: {
     name: "Burn Baby Burn!",
     challengeDescription: "Wood will be set to nada",
     rewardDescription: "Unlock new stuff again",
-    goal: new Decimal(100000000000),
+    goal: new Decimal(1000000000),
     unlocked() {return hasChallenge("W", 11)}
   }
 },
@@ -746,7 +746,7 @@ addLayer("c", {
         unlocked: true,                     // You can add more variables here to add them to your layer.
         points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
     }},
-
+    requires: new Decimal(1e10),
     color: "#777777",                       // The color for this layer, which affects many elements.
     resource: "Coal",            // The name of this layer's main prestige resource.
     row: 2,
