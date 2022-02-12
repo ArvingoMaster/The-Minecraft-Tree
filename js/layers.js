@@ -618,7 +618,7 @@ challenges: {
     goal: new Decimal(100000000000),
     unlocked() {return hasChallenge("W", 11)}
   }
-}
+},
 
 })
 addLayer("S", {
@@ -734,6 +734,7 @@ upgrades: {
   }
 
 },
+
 })
 addLayer("c", {
     startData() { return {                  // startData is a function that returns default data for a layer.
@@ -752,11 +753,8 @@ addLayer("c", {
         {key: "c", description: "C: Reset for Coal.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],  // A function to return the current amount of baseResource.
 
-    requires: new Decimal(1e10),              // The amount of the base needed to  gain 1 of the prestige currency.
-    base: 4,                              // Also the amount required to unlock the layer.
-
-    type: "static",                         // Determines the formula used for calculating prestige currency.
-    exponent: 1.2,                          // "normal" prestige gain is (currency^exponent).
+    type: "static",
+    exponent: 1.2,
     canBuyMax() { return hasUpgrade("i", 12)},
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
         return new Decimal(1)               // Factor in any bonuses multiplying gain here.
@@ -873,7 +871,7 @@ addLayer("c", {
     milestones: {
         0: {
             requirementDescription: "1 Fluid",
-            effectDescription: "x2 Fluid Gain, endgame for now I guess",
+            effectDescription: "x2 Fluid Gain",
             done() { return player[this.layer].points.gte(1) }
         },
         1: {
@@ -1084,6 +1082,12 @@ upgrades: {
     title: "More multitask",
     description: "Start with auto dirt upgrades!",
     cost: new Decimal(1000),
+    unlocked() {return hasChallenge("F", 11) && hasChallenge("F",12)}
+  },
+  23: {
+    title: "Auto search",
+    description: "Tier 3 resets do NOT reset upgrades, milestones, and energy!",
+    cost: new Decimal(1000000),
     unlocked() {return hasChallenge("F", 11) && hasChallenge("F",12)}
   }
 },
